@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Window size="258,139" caption="0,0,0,30" roundcorner="4,4" >
+
+	<Font shared="true" id="0" name="微软雅黑" size="15" bold="false" default="true" />
+
+	<VerticalLayout inset="4,0,4,4" bkimage="file='bg_prompt.png' corner='4,48,4,4' mask='#FFFF00FF'" >
+	
+		<HorizontalLayout height="30" inset="2,2,2,0">
+			<Control width="55"/>
+			<Control />
+			<Button name="closebtn" float="true" pos="230,9,11,11" width="11" height="11" tooltip="关闭" normalimage="file='btn_close_normal.png' mask='#FFFF00FF'" hotimage="file='btn_close_hover.png' mask='#FFFF00FF'" pushedimage="file='btn_close_push.png' mask='#FFFF00FF'"/>
+		</HorizontalLayout>
+		
+		<Container>
+			
+			<Label text="确认退出？" float="true" pos="100, 10, 180, 40" textcolor="#FF333333"/>
+			
+			<Button name="cancelbtn" text="取消" textpadding="0,-5,0,0" float="true" pos="10, 50, 124, 92" textcolor="#FFFFFFFF" normalimage="btn_cancel_normal.png" hotimage="btn_cancel_hover.png" pushedimage="btn_cancel_push.png" />
+			<Button name="okbtn" text="确认" textpadding="0,-5,0,0" float="true" pos="134, 50, 248, 92" textcolor="#FFFFFFFF" normalimage="btn_ok_normal.png" hotimage="btn_ok_hover.png" pushedimage="btn_ok_push.png" />
+			
+		</Container>
+		
+    </VerticalLayout>
+	
+</Window>

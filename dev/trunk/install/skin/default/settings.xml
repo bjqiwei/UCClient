@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Window size="437,550" caption="0,0,0,50" roundcorner="4,4" >
+
+	<Font shared="true" id="0" name="微软雅黑" size="15" bold="false" default="true" />
+	<Font shared="true" id="1" name="微软雅黑" size="12" bold="false" />
+
+	<Default shared="true" name="Button" value="textcolor=&quot;#000000&quot; hottextcolor=&quot;#FFFFFF&quot; focusedtextcolor=&quot;#000000&quot; pushedtextcolor=&quot;#77a8de&quot; normalimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,0,96,24'&quot; hotimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,24,96,48'&quot; pushedimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,48,96,72'&quot; disabledimage=&quot;file='Button/btn.png' corner='5,11,5,11' source='0,72,96,96'&quot;" />
+	
+	<Default shared="true" name="CheckBox" value="textcolor=&quot;#FFbac0c5&quot; hottextcolor=&quot;#FF386382&quot; selectedtextcolor=&quot;#FF386382&quot; disabledtextcolor=&quot;#FFbac0c5&quot; textpadding=&quot;20,2,0,0&quot; align=&quot;left&quot; selectedimage=&quot;file='checked.png' dest='0,2,16,18'&quot; normalimage=&quot;file='unchecked.png' dest='0,2,16,18'&quot;" />
+	
+	<VerticalLayout inset="4,0,4,4" bkimage="file='bg_settings.png' corner='4,48,4,4' mask='#FFFF00FF'" >
+	
+		<HorizontalLayout height="50" inset="2,2,2,0">
+			<Control width="55"/>
+			<Control />
+			<Button name="minbtn" float="true" pos="380,22,11,11" width="11" height="11" tooltip="最小化" normalimage="file='btn_min_normal.png' mask='#FFFF00FF'" hotimage="file='btn_min_hover.png' mask='#FFFF00FF'" pushedimage="file='btn_min_push.png' mask='#FFFF00FF'"/>
+			<Button name="closebtn" float="true" pos="408,22,11,11" width="11" height="11" tooltip="关闭" normalimage="file='btn_close_normal.png' mask='#FFFF00FF'" hotimage="file='btn_close_hover.png' mask='#FFFF00FF'" pushedimage="file='btn_close_push.png' mask='#FFFF00FF'"/>
+		</HorizontalLayout>
+		
+		<Container>
+			<Label text="监听端口：" align="right" float="true" pos="30, 22, 105, 54" />
+			<Edit name="port" float="true" pos="115, 22, 180, 54" tooltip="请输入端口号" bkimage="file='bg_progress.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			
+			<Label text="日志级别：" float="true" pos="225, 22, 295, 54" />
+			<Edit name="logLevel" float="true" pos="305, 22, 370, 54" tooltip="请输入日志级别" bkimage="file='bg_progress.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			
+			<Label text="日志路径：" align="right" float="true" pos="30, 70, 105, 102" />
+			<Edit name="logPath" float="true" pos="115, 70, 370, 102" tooltip="请输入日志路径" bkimage="file='bg_progress.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			
+			<Label text="麦克风：" align="right" float="true" pos="30, 118, 105, 150" />
+			<Combo name="microphone" float="true" pos="115, 118, 370, 150" tooltip="请点击这里选择麦克风" normalimage="file='combo_normal.png' corner='2,2,24,2'" hotimage="file='combo_normal.png' corner='2,2,24,2'" pushedimage="file='combo_normal.png' corner='2,2,24,2'" textpadding="1,1,1,1" >
+			</Combo>
+			<CheckBox name="ismicrophone" font="1" float="true" pos="115,155,280,175" text="是否对麦克风进行录音" />
+			
+			<Label text="音量：" align="right" float="true" pos="30, 191, 105, 223" />
+			<Control float="true" pos="115, 197, 128, 216" bkimage="file='yinlaing1.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			<Slider name="microphoneVolume" float="true" pos="138,197,0,0" width="205" height="20"  min="0" max="255" value="60" bkimage="SliderBackVolume.png" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" foreimage="SliderForeVolume.png" hor="true" thumbimage="file=&apos;SliderBar.png&apos; source=&apos;0,0,20,20&apos; " thumbhotimage="file=&apos;SliderBar.png&apos; source=&apos;21,0,41,20&apos;" thumbpushedimage="file=&apos;SliderBar.png&apos; source=&apos;42,0,62,20&apos;" thumbsize="20,20" />
+			<Control name="microphoneMute" float="true" pos="343, 196, 369, 215" bkimage="file='yinlaing2.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			
+			<Label text="麦克风测试：" align="right" float="true" pos="15, 231, 105, 263" />
+			<HorizontalLayout float="true" pos="115, 231, 340, 263" bkimage="file='bg_progress.png' corner='4,4,4,4' mask='#FFFF00FF'" >
+				<Progress name="microphoneProgress" float="true" pos="5, 5, 185, 27" foreimage="file='progress_fore.png'" min="0" max="100" value="32" maxheight="7" maxwidth="185"/>
+			</HorizontalLayout>			
+			<Button name="microphonePlay" tooltip="" float="true" pos="338,231,370,263" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;btn_play.png&apos; source=&apos;0,0,48,48&apos;" hotimage="file=&apos;btn_play.png&apos; source=&apos;49,0,97,48&apos;" pushedimage="file=&apos;btn_play.png&apos; source=&apos;98,0,146,48&apos;" />
+			
+			<Button name="microphonePause" visible="false" tooltip="" float="true" pos="338,231,370,263" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;btn_pause.png&apos; source=&apos;0,0,48,48&apos;" hotimage="file=&apos;btn_pause.png&apos; source=&apos;49,0,97,48&apos;" pushedimage="file=&apos;btn_pause.png&apos; source=&apos;98,0,146,48&apos;" />
+			
+			<Label text="扬声器：" align="right" float="true" pos="30, 279, 105, 311" />
+			<Combo name="speaker" float="true" pos="115, 279, 370, 311" tooltip="请点击这里选择扬声器" normalimage="file='combo_normal.png' corner='2,2,24,2'" hotimage="file='combo_normal.png' corner='2,2,24,2'" pushedimage="file='combo_normal.png' corner='2,2,24,2'" textpadding="1,1,1,1" >
+			</Combo>
+			
+			<Label text="音量：" align="right" float="true" pos="30, 327, 105, 359" />
+			<Control float="true" pos="115, 333, 128, 352" bkimage="file='yinlaing1.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			<Slider name="speakerVolume" float="true" pos="138,333,0,0" width="205" height="20"  min="0" max="255" value="60" bkimage="SliderBackVolume.png" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" foreimage="SliderForeVolume.png" hor="true" thumbimage="file=&apos;SliderBar.png&apos; source=&apos;0,0,20,20&apos; " thumbhotimage="file=&apos;SliderBar.png&apos; source=&apos;21,0,41,20&apos;" thumbpushedimage="file=&apos;SliderBar.png&apos; source=&apos;42,0,62,20&apos;" thumbsize="20,20" />
+			<Control name="speakerMute" float="true" pos="343, 332, 369, 351" bkimage="file='yinlaing2.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+			
+			<Label text="播放测试音：" align="right" float="true" pos="15, 375, 105, 407" />
+			<HorizontalLayout float="true" pos="115, 375, 340, 407" bkimage="file='bg_progress.png' corner='4,4,4,4' mask='#FFFF00FF'" >
+				<Progress name="speakerProgress" float="true" pos="5, 5, 185, 27" foreimage="file='progress_fore.png'" min="0" max="100" value="32" maxheight="7" maxwidth="185"/>
+			</HorizontalLayout>			
+			<Button name="speakerPlay" tooltip="" float="true" pos="338,375,370,407" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;btn_play.png&apos; source=&apos;0,0,48,48&apos;" hotimage="file=&apos;btn_play.png&apos; source=&apos;49,0,97,48&apos;" pushedimage="file=&apos;btn_play.png&apos; source=&apos;98,0,146,48&apos;" />
+			
+			<Button name="speakerPause" visible="false" tooltip="" float="true" pos="338,375,370,407" textcolor="#FF000000" disabledtextcolor="#FFA7A6AA" align="center" normalimage="file=&apos;btn_pause.png&apos; source=&apos;0,0,48,48&apos;" hotimage="file=&apos;btn_pause.png&apos; source=&apos;49,0,97,48&apos;" pushedimage="file=&apos;btn_pause.png&apos; source=&apos;98,0,146,48&apos;" />
+			
+			<Button name="backBtn" text="返回" float="true" textpadding="0,-5,0,0" pos="134, 433, 277, 483" textcolor="#FFFFFFFF" normalimage="btn_log_normal.png" hotimage="btn_log_hover.png" pushedimage="btn_log_push.png" />
+			
+		</Container>
+		
+    </VerticalLayout>
+	
+</Window>

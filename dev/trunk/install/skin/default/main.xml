@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Window size="437,274" caption="0,0,0,50" roundcorner="4,4" >
+
+	<Font shared="true" id="0" name="微软雅黑" size="15" bold="false" default="true" />
+	
+	<VerticalLayout inset="4,0,4,4" bkimage="file='bg.png' corner='4,48,4,4' mask='#FFFF00FF'" >
+	
+		<HorizontalLayout height="50" inset="2,2,2,0">
+			<Control width="55"/>
+			<Label text="软电话程序" width="180" />
+			<Control />
+			<Button name="minbtn" float="true" pos="380,22,11,11" width="11" height="11" tooltip="最小化" normalimage="file='btn_min_normal.png' mask='#FFFF00FF'" hotimage="file='btn_min_hover.png' mask='#FFFF00FF'" pushedimage="file='btn_min_push.png' mask='#FFFF00FF'"/>
+			<Button name="closebtn" float="true" pos="408,22,11,11" width="11" height="11" tooltip="关闭" normalimage="file='btn_close_normal.png' mask='#FFFF00FF'" hotimage="file='btn_close_hover.png' mask='#FFFF00FF'" pushedimage="file='btn_close_push.png' mask='#FFFF00FF'"/>
+		</HorizontalLayout>
+		
+		<Control height="38" />
+		<HorizontalLayout height="31" >
+			<Control width="187"/>
+			<Control height="31" width="63" bkimage="file='logo_big.png' corner='4,4,4,4' mask='#FFFF00FF'"/>
+		</HorizontalLayout>
+		<Control height="11" />
+		
+		<Container>
+			
+			<Label text="欢迎来到软电话程序" float="true" pos="155, 0, 333, 30" textcolor="#FF999999"/>
+			
+			<Label text="服务状态：" float="true" pos="150, 25, 337, 55" textcolor="#FF999999"/>
+			<Label name="status" text="运行中" float="true" pos="235, 25, 342, 55" textcolor="#FFFF0000"/>
+			
+			<Button name="settingsbtn" text="高级设置" textpadding="0,-5,0,0" float="true" pos="60, 65, 209, 115" textcolor="#FFFFFFFF" normalimage="btn_setting_normal.png" hotimage="btn_setting_hover.png" pushedimage="btn_setting_push.png" />
+			<Button name="showlogbtn" text="查看日志" textpadding="0,-5,0,0" float="true" pos="234, 65, 377, 115" textcolor="#FFFFFFFF" normalimage="btn_log_normal.png" hotimage="btn_log_hover.png" pushedimage="btn_log_push.png" />
+			
+		</Container>
+		
+    </VerticalLayout>
+	
+</Window>

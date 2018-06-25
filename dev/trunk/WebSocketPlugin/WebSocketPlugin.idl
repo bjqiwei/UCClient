@@ -1,0 +1,59 @@
+// WebSocketPlugin.idl : IDL source for WebSocketPlugin
+//
+
+// This file will be processed by the MIDL tool to
+// produce the type library (WebSocketPlugin.tlb) and marshalling code.
+
+import "oaidl.idl";
+import "ocidl.idl";
+
+[
+	object,
+	uuid(E86262B1-60E8-44D3-971B-1328DAA3954F),
+	dual,
+	nonextensible,
+	pointer_default(unique)
+]
+interface IATLWebSocket : IDispatch {
+	[id(1)] HRESULT setwsurl([in] BSTR url);
+	[propget, id(2)] HRESULT m_readyState([out, retval] LONG* pVal);
+	[propget, id(3)] HRESULT onopen([out, retval] IDispatch** pVal);
+	[propput, id(3)] HRESULT onopen([in] IDispatch* newVal);
+	[propget, id(4)] HRESULT onmessage([out, retval] IDispatch** pVal);
+	[propput, id(4)] HRESULT onmessage([in] IDispatch* newVal);
+	[propget, id(5)] HRESULT onclose([out, retval] IDispatch** pVal);
+	[propput, id(5)] HRESULT onclose([in] IDispatch* newVal);
+	[propget, id(6)] HRESULT onerror([out, retval] IDispatch** pVal);
+	[propput, id(6)] HRESULT onerror([in] IDispatch* newVal);
+	[id(7)] HRESULT send([in] BSTR data);
+	[id(8)] HRESULT close();
+	[propget, id(9)] HRESULT onexception([out, retval] IDispatch** pVal);
+	[propput, id(9)] HRESULT onexception([in] IDispatch* newVal);
+};
+
+[
+	uuid(4550362F-C36C-4E49-9BC7-23E72A8D181B),
+	version(1.0),
+]
+library WebSocketPluginLib
+{
+	importlib("stdole2.tlb");
+	[
+		uuid(FE891541-8B8B-483A-AE5D-AAA4587E703A)
+	]
+	dispinterface _IATLWebSocketEvents
+	{
+	properties:
+	methods:
+	};
+	[
+		uuid(4B99B6A3-777E-4DB9-87A9-A0AE3E13F6BC),
+		control
+	]
+	coclass ATLWebSocket
+	{
+		[default] interface IATLWebSocket;
+		[default, source] dispinterface _IATLWebSocketEvents;
+	};
+};
+

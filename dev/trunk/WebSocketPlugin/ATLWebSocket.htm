@@ -1,0 +1,94 @@
+<HTML>
+<HEAD>
+<TITLE>ATL test page for object ATLWebSocket</TITLE>
+</HEAD>
+<BODY>
+
+    <hr />
+    <input id="status" width="400" value="未连接" disabled="disabled" />
+    <hr />
+
+    <input type="text" id="wsurl" value="wss://echo.websocket.org" /><p/>
+    <input type="button" value="连接" onclick="newWebSocket(document.getElementById('wsurl').value);" />
+    <input type="button" value="断开" onclick="closeWebSocket();" />
+    <p/>
+    <input type="text" id="senddata" value="send message" /><input type="button" value="发送" onclick="sendMessage();" />
+
+    <script type="text/javascript">
+
+        var ytxwebsocket;
+
+        function newWebSocket(url) {
+            //try {
+            //    var ytxws = new ActiveXObject("ytx.WebSocket");
+            //}
+            //catch (err) {
+            //    alert("没有安装插件");
+            //    return ;
+            //}
+            var ytxws = document.createElement("object");
+
+            if (window.ActiveXObject || "ActiveXObject" in window) {
+                ytxws.classid = "CLSID:4B99B6A3-777E-4DB9-87A9-A0AE3E13F6BC";
+                ytxws.width = 1;
+                ytxws.height = 1;
+                document.body.appendChild(ytxws);
+            }
+
+            ytxws.onopen = onopen;
+            ytxws.onmessage = onmessage;
+            ytxws.onclose = onclose;
+            ytxws.onerror = onerror;
+            ytxws.onexception = onerror;
+            ytxws.setwsurl(url);
+            ytxwebsocket = ytxws;
+        }
+
+        function closeWebSocket()
+        {
+            ytxwebsocket.close();
+        }
+
+        function sendMessage() {
+            ytxwebsocket.send(document.getElementById("senddata").value);
+        }
+
+        function onopen(evt)
+        {
+            document.getElementById("status").value = "已连接";
+            insertLog("onopen:" + ytxwebsocket.m_readyState);
+        }
+
+        function onmessage(evt) {
+            //document.getElementById("status").value = "已连接";
+            insertLog("onmessage:" + evt.data);
+        }
+
+        function onclose(evt) {
+            document.getElementById("status").value = "已断开";
+            insertLog("onclose:" + ytxwebsocket.m_readyState);
+        }
+
+        function onerror(evt) {
+            document.getElementById("status").value = "错误";
+            insertLog("onerror:" + ytxwebsocket.m_readyState);
+        }
+
+    </script>
+
+    <!--//其他函数-->
+    <script type="text/javascript">
+
+		function insertLog(msg) {
+			var newItem = document.createElement("li")
+			var textnode = document.createTextNode(msg)
+			newItem.appendChild(textnode)
+
+			var list = document.getElementById("textbody")
+			list.insertBefore(newItem, list.childNodes[0]);
+
+		}
+    </script>
+    <ul id="textbody"><li></li></ul>
+</BODY>
+</HTML>

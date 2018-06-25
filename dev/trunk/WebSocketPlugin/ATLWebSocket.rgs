@@ -1,0 +1,32 @@
+HKCR
+{
+	ytx.WebSocket.1 = s 'ATLWebSocket Class'
+	{
+		CLSID = s '{4B99B6A3-777E-4DB9-87A9-A0AE3E13F6BC}'
+	}
+	ytx.WebSocket = s 'ATLWebSocket Class'
+	{		
+		CurVer = s 'ytx.WebSocket.1'
+	}
+	NoRemove CLSID
+	{
+		ForceRemove {4B99B6A3-777E-4DB9-87A9-A0AE3E13F6BC} = s 'ATLWebSocket Class'
+		{
+			ProgID = s 'ytx.WebSocket.1'
+			VersionIndependentProgID = s 'ytx.WebSocket'
+			ForceRemove Programmable
+			InprocServer32 = s '%MODULE%'
+			{
+				val ThreadingModel = s 'Apartment'
+			}
+			ForceRemove Control
+			ForceRemove 'ToolboxBitmap32' = s '%MODULE%, 112'
+			MiscStatus = s '0'
+			{
+			    '1' = s '%OLEMISC%'
+			}
+			TypeLib = s '{82892C18-ADE1-4716-946B-AF375900E4BC}'
+			Version = s '4.0.1.16'
+		}
+	}
+}

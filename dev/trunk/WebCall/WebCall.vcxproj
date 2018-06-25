@@ -1,0 +1,298 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{3CFF24EB-C6E7-4EEC-AB64-6C634A129EE0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>WebCall</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)build\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)build\$(PlatformName)\obj.$(ProjectName).$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IntDir>$(SolutionDir)build\$(PlatformName)\obj.$(ProjectName).$(Configuration)\</IntDir>
+    <OutDir>$(SolutionDir)build\$(PlatformName)\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\pjproject-2.7.2\third_party\include;$(SolutionDir)..\..\pjproject-2.7.2\pjsip\include;$(SolutionDir)..\..\pjproject-2.7.2\pjnath\include;$(SolutionDir)..\..\pjproject-2.7.2\pjmedia\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib-util\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib\include;$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir)..\..\openssl1.1.0e/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\openssl1.1.0e\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcrypto.lib;libssl.lib;Crypt32.lib;Dbghelp.lib;Version.lib;Wtsapi32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
+xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\pjproject-2.7.2\third_party\include;$(SolutionDir)..\..\pjproject-2.7.2\pjsip\include;$(SolutionDir)..\..\pjproject-2.7.2\pjnath\include;$(SolutionDir)..\..\pjproject-2.7.2\pjmedia\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib-util\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib\include;$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir)..\..\openssl1.1.0e/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
+xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\pjproject-2.7.2\third_party\include;$(SolutionDir)..\..\pjproject-2.7.2\pjsip\include;$(SolutionDir)..\..\pjproject-2.7.2\pjnath\include;$(SolutionDir)..\..\pjproject-2.7.2\pjmedia\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib-util\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib\include;$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir)..\..\openssl1.1.0e/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)..\..\openssl1.1.0e\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcrypto.lib;libssl.lib;Crypt32.lib;Dbghelp.lib;Version.lib;Wtsapi32.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
+xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\pjproject-2.7.2\third_party\include;$(SolutionDir)..\..\pjproject-2.7.2\pjsip\include;$(SolutionDir)..\..\pjproject-2.7.2\pjnath\include;$(SolutionDir)..\..\pjproject-2.7.2\pjmedia\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib-util\include;$(SolutionDir)..\..\pjproject-2.7.2\pjlib\include;$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir)..\..\openssl1.1.0e/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
+xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainWnd.h" />
+    <ClInclude Include="PjSipSDK.h" />
+    <ClInclude Include="PjSipSDKBase.h" />
+    <ClInclude Include="PromptWnd.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="SettingsWnd.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="stringHelper.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="UIMessage.h" />
+    <ClInclude Include="WebCallWebSocket.h" />
+    <ClInclude Include="websocket.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainWnd.cpp" />
+    <ClCompile Include="PjSipSDK.cpp" />
+    <ClCompile Include="PjSipSDKBase.cpp" />
+    <ClCompile Include="PromptWnd.cpp" />
+    <ClCompile Include="SettingsWnd.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="WebCall.cpp" />
+    <ClCompile Include="WebCallWebSocket.cpp" />
+    <ClCompile Include="websocket.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="WebCall.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="small.ico" />
+    <Image Include="WebCall.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\jsoncpp-src-0.5.0\makefiles\vs2015\lib_json.vcxproj">
+      <Project>{b84f7231-16ce-41d8-8c08-7b523ff4225b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\libwebsockets-2.2.1\websockets.vcxproj">
+      <Project>{594e5e3e-e08d-3633-82d5-3672d7f07e35}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\log4cplus-1.2.0\msvc14\log4cplusS.vcxproj">
+      <Project>{bec0cd2f-60cd-40e2-a89b-ab10e902f1d5}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjlib-util\build\pjlib_util.vcxproj">
+      <Project>{fe07f272-ae7f-4549-9e9f-ef9b80cb1693}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjlib\build\pjlib.vcxproj">
+      <Project>{da0e03ed-53a7-4050-8a85-90541c5509f8}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjmedia\build\pjmedia.vcxproj">
+      <Project>{7fde3880-a4ab-49e3-b439-ebef0a0c7a65}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjmedia\build\pjmedia_audiodev.vcxproj">
+      <Project>{4281ca5e-1d48-45d4-a991-2718a454b4ba}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjmedia\build\pjmedia_codec.vcxproj">
+      <Project>{855dc8c0-d3e9-4a2e-ae47-116605a7bc9b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjnath\build\pjnath.vcxproj">
+      <Project>{a5d9aa24-08ed-48b9-bd65-f0a25e96bfc4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjsip-apps\build\libpjproject.vcxproj">
+      <Project>{23d7679c-764c-4e02-8b29-bb882ceeefe2}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjsip\build\pjsip_core.vcxproj">
+      <Project>{2bb84911-c1b4-4747-b93d-36aa82cc5031}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjsip\build\pjsip_simple.vcxproj">
+      <Project>{4b5945cd-0cb3-49aa-a7ff-7612d93f82c0}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjsip\build\pjsip_ua.vcxproj">
+      <Project>{b8719fd5-e8a6-4a36-943c-891d07f5dd21}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjsip\build\pjsua2_lib.vcxproj">
+      <Project>{b82cdd25-6903-430e-bd38-d8129a2015c1}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\pjsip\build\pjsua_lib.vcxproj">
+      <Project>{9ca0fdfb-2172-41fc-b7f1-5ce915edcb37}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\baseclasses\libbaseclasses.vcxproj">
+      <Project>{e8a3f6fa-ae1c-4c8e-a0b6-9c8480324eaa}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\g7221\libg7221codec.vcxproj">
+      <Project>{2a3f241e-682c-47e1-9543-dc28708b406a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\g729\libbcg729codec.vcxproj">
+      <Project>{bc05fcea-db5f-3afc-a44f-fcce856ff26f}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\gsm\libgsmcodec.vcxproj">
+      <Project>{e53aa5ff-b737-40aa-bd13-387efa99023d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\ilbc\libilbccodec.vcxproj">
+      <Project>{b5fe16f8-3edb-4110-bd80-b4238cc01e8d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\milenage\libmilenage.vcxproj">
+      <Project>{4bf51c21-5a30-423b-82fe-1ed410e5769d}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\resample\libresample.vcxproj">
+      <Project>{6794b975-4e84-4f49-b2dc-c31f2224e03e}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\speex\libspeex.vcxproj">
+      <Project>{4b059dba-cd9c-4d0f-be8c-ffb4efd498e9}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\srtp\libsrtp.vcxproj">
+      <Project>{f0dbaa03-1ba3-4e3b-a2ca-727e3d3ab858}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\pjproject-2.7.2\third_party\build\webrtc\libwebrtc.vcxproj">
+      <Project>{5bcf2773-3825-4d91-9d72-3e2f650df1db}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\DuiLib\DuiLib.vcxproj">
+      <Project>{e106acd7-4e53-4aee-942b-d0dd426db34e}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
