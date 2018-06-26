@@ -110,9 +110,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BrowserPlugin\BrowserPlugin.vcxproj">
-      <Project>{973b6035-964f-4bbb-8e9c-2aea7523c5ff}</Project>
-    </ProjectReference>
     <ProjectReference Include="..\WebCall\WebCall.vcxproj">
       <Project>{3cff24eb-c6e7-4eec-ab64-6c634a129ee0}</Project>
     </ProjectReference>
