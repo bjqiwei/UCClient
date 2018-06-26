@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "MainWnd.h"
+#include "WinSDKBase.h"
 
 #pragma comment( lib, "DbgHelp" )
 
@@ -66,7 +67,7 @@ VectoredHandler(
 		DWORD pId = GetCurrentProcessId();
 		//::MessageBox(nullptr, "", "", MB_OK);
 		std::wstringstream oss;
-		oss << Utf82Unicode(utf8AppDataDir) << L"\\" << pId << L"." << Utf82Unicode(CPjSipSDK::getVersion()) << L".dmp";
+		oss << Utf82Unicode(utf8AppDataDir) << L"\\" << pId << L"." << Utf82Unicode(CWinSDKBase::getVersion()) << L".dmp";
 		std::wstring dmpFile = oss.str();
 		HANDLE lhDumpFile = CreateFileW(dmpFile.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
@@ -105,7 +106,7 @@ VectoredHandler(
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*lpCmdLine*/, int nCmdShow)
 {
-	CMainWnd::m_SingletonEvent = CreateEvent(NULL, FALSE, FALSE, "90C4B4FE-0795-4442-B387-CBE245838328");
+	CMainWnd::m_SingletonEvent = CreateEvent(NULL, FALSE, FALSE, "0F528E4B-9543-4A09-B131-FC38958CB10F");
 	if (GetLastError() == ERROR_ALREADY_EXISTS) {
 		SetEvent(CMainWnd::m_SingletonEvent);
 		CloseHandle(CMainWnd::m_SingletonEvent);

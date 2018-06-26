@@ -1,40 +1,11 @@
 #include "stdafx.h"
 #include "SettingsWnd.h"
+#include "CCPClient.h"
 #include <log4cplus/loggingmacros.h>
 #include <json/json.h>
 #include "codingHelper.h"
 #include <iostream>
 
-static CSettingsWnd * configDlg = nullptr;
-
-class CAudioMediaPlayer :public pj::AudioMediaPlayer{
-public:
-	CAudioMediaPlayer(CSettingsWnd * Wnd):m_Wnd(Wnd){
-		this->log = log4cplus::Logger::getInstance("playfile");
-	}
-	~CAudioMediaPlayer() {
-
-	}
-
-	virtual bool onEof() override
-	{
-		m_Wnd->m_pSpeakerPlay->SetVisible(true);
-		m_Wnd->m_pSpeakerPause->SetVisible(false);
-		KillTimer(m_Wnd->GetHWND(), SPEAKERTEST_TIMER);
-		try {
-			pj::AudioMedia& play_med = pj::Endpoint::instance().audDevManager().getPlaybackDevMedia();
-			this->stopTransmit(play_med);
-		}
-		catch (pj::Error& err)
-		{
-			LOG4CPLUS_ERROR(log, err.info());
-		}
-		return false;
-	}
-private:
-	const CSettingsWnd * m_Wnd = nullptr;
-	log4cplus::Logger log;
-};
 
 CSettingsWnd::CSettingsWnd()
 {
@@ -43,8 +14,6 @@ CSettingsWnd::CSettingsWnd()
 
 CSettingsWnd::~CSettingsWnd()
 {
-	if(m_player)
-		delete m_player;
 }
 
 CControlUI* CSettingsWnd::CreateControl(LPCTSTR pstrClass)
@@ -93,35 +62,26 @@ void CSettingsWnd::InitWindow()
 	m_pSpeakerPause = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("speakerPause")));
 
 	this->m_pSpeakerVolume->SetMinValue(0);
-	this->m_pSpeakerVolume->SetMaxValue(100);
+	this->m_pSpeakerVolume->SetMaxValue(255);
 
 	this->m_pMicrophoneVolume->SetMinValue(0);
-	this->m_pMicrophoneVolume->SetMaxValue(100);
+	this->m_pMicrophoneVolume->SetMaxValue(255);
 
-
-	try {
-		pj::Endpoint::instance().audDevManager().refreshDevs();
-		const pj::AudioDevInfoVector & auddev = pj::Endpoint::instance().audDevManager().enumDev();
-		for (int i = 0; i < auddev.size(); i++) {
-
-			if (auddev[i]->inputCount)
-			{
-				CListLabelElementUI* pListLabelElementUI = new CListLabelElementUI();
-				pListLabelElementUI->SetText(auddev[i]->name.c_str());
-				m_pMicrophoneCombo->Add(pListLabelElementUI);
-			}
-
-			if (auddev[i]->outputCount)
-			{
-				CListLabelElementUI* pListLabelElementUI_Speaker = new CListLabelElementUI();
-				pListLabelElementUI_Speaker->SetText(auddev[i]->name.c_str());
-				m_pSpeakerCombo->Add(pListLabelElementUI_Speaker);
-			}
-		}
+	CCPMicroPhoneInfo * micro = nullptr;
+	int count = getMicroPhoneInfo(&micro);
+	for (int i = 0; i < count; i++) {
+		CListLabelElementUI* pListLabelElementUI = new CListLabelElementUI();
+		pListLabelElementUI->SetText(micro[i].name);
+		m_pMicrophoneCombo->Add(pListLabelElementUI);
 	}
-	catch (pj::Error& err)
+	
+	CCPSpeakerInfo * speaker = nullptr;
+	count = getSpeakerInfo(&speaker);
+	for (int i = 0; i < count; i++)
 	{
-		LOG4CPLUS_ERROR(log, err.info());
+		CListLabelElementUI* pListLabelElementUI_Speaker = new CListLabelElementUI();
+		pListLabelElementUI_Speaker->SetText(speaker[i].name);
+		m_pSpeakerCombo->Add(pListLabelElementUI_Speaker);
 	}
 
 	m_pMicrophoneCombo->SelectItem(0);
@@ -138,23 +98,11 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 	else if (msg.sType == DUI_MSGTYPE_VALUECHANGED)
 	{
 		if (msg.pSender->GetName() == _T("microphoneVolume")) {
-			try {
-				pj::Endpoint::instance().audDevManager().getCaptureDevMedia().adjustTxLevel(this->m_pMicrophoneVolume->GetValue()/50.0);
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, err.info());
-			}
+			//setMicroVolume(this->m_pMicrophoneVolume->GetValue());
 		}
 
 		else if (msg.pSender->GetName() == _T("speakerVolume")) {
-			try {
-				pj::Endpoint::instance().audDevManager().getPlaybackDevMedia().adjustRxLevel(this->m_pSpeakerVolume->GetValue()/50.0);
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, err.info());
-			}
+			setSpeakerVolume(this->m_pSpeakerVolume->GetValue());
 		}
 	}
 	else if (msg.sType == DUI_MSGTYPE_ITEMSELECT)
@@ -162,42 +110,11 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 		if (msg.pSender->GetName() == _T("microphone")) {
 
 			int micro = m_pMicrophoneCombo->GetCurSel();
-			int microindex = 0;
-
-			try {
-				const pj::AudioDevInfoVector & auddev = pj::Endpoint::instance().audDevManager().enumDev();
-				for (int i = 0; i < auddev.size(); i++) {
-
-					if (auddev[i]->inputCount && micro == microindex++) {
-						pj::Endpoint::instance().audDevManager().setCaptureDev(i);
-					}
-				}
-
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, err.info());
-			}
+			selectMicroPhone(micro);
 		}
 		if (msg.pSender->GetName() == _T("speaker")) {
-			
 			int speaker = m_pSpeakerCombo->GetCurSel();
-			int speakerindex = 0;
-
-			try {
-				const pj::AudioDevInfoVector & auddev = pj::Endpoint::instance().audDevManager().enumDev();
-				for (int i = 0; i < auddev.size(); i++) {
-
-					if (auddev[i]->outputCount && speaker == speakerindex++)
-					{
-						pj::Endpoint::instance().audDevManager().setPlaybackDev(i);
-					}
-				}
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, err.info());
-			}
+			selectSpeaker(speaker);
 		}
 	}
 	else if (msg.sType == DUI_MSGTYPE_TEXTCHANGED)
@@ -227,38 +144,15 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 		}
 		else if (msg.pSender->GetName() == _T("speakerPlay"))
 		{
+			
 			std::string utf8RingFile = utf8Dir + "ring.wav";
-			try {
-				pj::AudioMedia& play_med = pj::Endpoint::instance().audDevManager().getPlaybackDevMedia();
-				if (this->m_player)
-					delete m_player;
-
-				m_player = new CAudioMediaPlayer(this);
-				m_player->createPlayer(utf8RingFile);
-				m_player->startTransmit(play_med);
-				SetTimer(this->GetHWND(), SPEAKERTEST_TIMER, 100, nullptr);
-				this->m_pSpeakerPlay->SetVisible(false);
-				this->m_pSpeakerPause->SetVisible(true);
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, "Error play ringfile :" << err.info());
-			}
 		}
 		else if (msg.pSender->GetName() == _T("speakerPause"))
 		{
 			this->m_pSpeakerPlay->SetVisible(true);
 			this->m_pSpeakerPause->SetVisible(false);
 			KillTimer(this->GetHWND(), SPEAKERTEST_TIMER);
-			try {
-				pj::AudioMedia& play_med = pj::Endpoint::instance().audDevManager().getPlaybackDevMedia();
-				if (this->m_player)
-					m_player->stopTransmit(play_med);
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, "Error play ringfile :" << err.info());
-			}
+
 		}
 
 		else if (msg.pSender->GetName() == _T("microphonePlay"))
@@ -266,15 +160,6 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 			SetTimer(this->GetHWND(), MICROTEST_TIMER, 100, nullptr);
 			this->m_pMicrophonePlay->SetVisible(false);
 			this->m_pMicrophonePause->SetVisible(true);
-			try {
-				pj::AudioMedia& play_med = pj::Endpoint::instance().audDevManager().getPlaybackDevMedia();
-				pj::AudioMedia& speaker_med = pj::Endpoint::instance().audDevManager().getCaptureDevMedia();
-				speaker_med.startTransmit(play_med);
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, err.info());
-			}
 
 		}
 		else if (msg.pSender->GetName() == _T("microphonePause"))
@@ -282,15 +167,6 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 			this->m_pMicrophonePlay->SetVisible(true);
 			this->m_pMicrophonePause->SetVisible(false);
 			KillTimer(this->GetHWND(), MICROTEST_TIMER);
-			try {
-				pj::AudioMedia& play_med = pj::Endpoint::instance().audDevManager().getPlaybackDevMedia();
-				pj::AudioMedia& speaker_med = pj::Endpoint::instance().audDevManager().getCaptureDevMedia();
-				speaker_med.stopTransmit(play_med);
-			}
-			catch (pj::Error& err)
-			{
-				LOG4CPLUS_ERROR(log, err.info());
-			}
 		}
 		
 	}
@@ -302,8 +178,8 @@ void CSettingsWnd::OnPrepare(TNotifyUI& msg)
 	this->m_wsPort = ReadRegKeyDWORD("WebSocketPort", 19996);
 	this->m_SpeakerName = ReadRegKeyString("Speaker");
 	this->m_MicroName = ReadRegKeyString("MicroPhone");
-	this->m_SpeakerVolume = ReadRegKeyDWORD("SpeakerVolume", 50);
-	this->m_MicroVolume = ReadRegKeyDWORD("MicroVolume", 50);
+	this->m_SpeakerVolume = ReadRegKeyDWORD("SpeakerVolume", 128);
+	this->m_MicroVolume = ReadRegKeyDWORD("MicroVolume", 128);
 	this->m_LogLevel = ReadRegKeyDWORD("LogLevel", 23);
 	this->m_LogPath = ReadRegKeyString("LogPath", "");
 
@@ -378,15 +254,6 @@ void CSettingsWnd::OnExit(TNotifyUI& msg)
 		SetRegKey("LogPath", m_pLogPath->GetText().GetData());
 	}
 
-	try {
-		pj::AudioMedia& play_med = pj::Endpoint::instance().audDevManager().getPlaybackDevMedia();
-		pj::AudioMedia& speaker_med = pj::Endpoint::instance().audDevManager().getCaptureDevMedia();
-		speaker_med.stopTransmit(play_med);
-	}
-	catch (pj::Error& err)
-	{
-		LOG4CPLUS_ERROR(log, err.info());
-	}
 	Close();
 }
 
@@ -395,12 +262,12 @@ LRESULT CSettingsWnd::OnTimer(UINT uMsg, WPARAM wParam, LPARAM lParam, BOOL& bHa
 	bHandled = FALSE;
 	switch (wParam) {
 	case MICROTEST_TIMER: {
-		m_pMicrophoneProgress->SetValue(pj::Endpoint::instance().audDevManager().getCaptureDevMedia().getTxLevel());
+		m_pMicrophoneProgress->SetValue(0);
 		bHandled = TRUE;
 	}
 	break;
 	case SPEAKERTEST_TIMER: {
-		m_pSpeakerProgress->SetValue(pj::Endpoint::instance().audDevManager().getPlaybackDevMedia().getRxLevel());
+		m_pSpeakerProgress->SetValue(0);
 		bHandled = TRUE;
 	}
 	break;

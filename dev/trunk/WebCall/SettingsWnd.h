@@ -63,7 +63,4 @@ public:
 	CString  m_MicroName;
 	uint32_t m_LogLevel = 0;
 
-private:
-	pj::AudioMediaPlayer * m_player = nullptr;
-
 };

@@ -9,13 +9,11 @@ CMainWnd::CMainWnd()
 {
 	this->m_wsPort = ReadRegKeyDWORD("WebSocketPort", 19996);
 
-	CPjSipSDKBase::initialize();
 	log = log4cplus::Logger::getInstance("CPjSipSDKBase");
 }
 
 CMainWnd::~CMainWnd()
 {
-	CPjSipSDKBase::unInitialize();
 }
 
 CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)

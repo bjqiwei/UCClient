@@ -42,16 +42,22 @@
     <ClInclude Include="websocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PjSipSDK.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PjSipSDKBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="WebCallWebSocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stringHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\winsdk\interface\CCPClient.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\winsdk\interface\CCPCommon.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\winsdk\interface\serphoneinterface.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinSDKBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -74,13 +80,10 @@
     <ClCompile Include="websocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PjSipSDK.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PjSipSDKBase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="WebCallWebSocket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinSDKBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
