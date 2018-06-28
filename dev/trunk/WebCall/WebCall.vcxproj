@@ -93,18 +93,19 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir)..\..\openssl1.1.0e/include;$(SolutionDir)winsdk\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir);$(SolutionDir)winsdk\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\openssl1.1.0e\lib;$(SolutionDir)winsdk\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;Crypt32.lib;Dbghelp.lib;Version.lib;Wtsapi32.lib;Winmm.lib;ccpclient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Crypt32.lib;Dbghelp.lib;Version.lib;Wtsapi32.lib;Winmm.lib;ccpclient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
-xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
+xcopy /y $(SolutionDir)install\*.zip $(OutDir)
+xcopy /y $(SolutionDir)winsdk\*.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -134,7 +135,7 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir)..\..\openssl1.1.0e/include;$(SolutionDir)winsdk\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\..\log4cplus-1.2.0\include;$(SolutionDir)..\..\jsoncpp-src-0.5.0\include;$(SolutionDir)..\..\libwebsockets-2.2.1;$(SolutionDir)..\..\libwebsockets-2.2.1/lib;$(SolutionDir);$(SolutionDir)winsdk\interface;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -143,11 +144,12 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)..\..\openssl1.1.0e\lib;$(SolutionDir)winsdk\%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libcrypto.lib;libssl.lib;Crypt32.lib;Dbghelp.lib;Version.lib;Wtsapi32.lib;Winmm.lib;ccpclient.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Crypt32.lib;Dbghelp.lib;Version.lib;Wtsapi32.lib;Winmm.lib;ccpclient.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
-xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
+xcopy /y $(SolutionDir)install\*.zip $(OutDir)
+xcopy /y $(SolutionDir)winsdk\*.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -226,6 +228,10 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
     <ProjectReference Include="..\DuiLib\DuiLib.vcxproj">
       <Project>{e106acd7-4e53-4aee-942b-d0dd426db34e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="demo.html" />
+    <None Include="WebCall.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

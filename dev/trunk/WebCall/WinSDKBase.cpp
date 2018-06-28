@@ -16,7 +16,7 @@ static CCallbackInterface CB;
 
 void CWinSDKBase::sonLogInfo(const char* loginfo) // 用于接收底层的log信息,调试出现的问题.
 {
-	if (g_Instance) g_Instance->onLogInfo(loginfo);
+	//if (g_Instance) g_Instance->onLogInfo(loginfo);
 }
 
 void CWinSDKBase::sonConnect(unsigned int tcpMsgIdOut, int reason, const char *jsonString, int autoReconnect)
@@ -354,6 +354,31 @@ int CWinSDKBase::setMute(bool on)
 {
 	LOG4CPLUS_DEBUG(log, __FUNCTION__ "on:" << on);
 	int ret = ::setMute(on);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+	return ret;
+}
+
+Json::Value CWinSDKBase::getMicroPhoneInfo()
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ );
+	CCPMicroPhoneInfo * micro = nullptr;
+	Json::Value info(Json::arrayValue);
+	int count = ::getMicroPhoneInfo(&micro);
+	for (int i = 0; i < count; i++) {
+		Json::Value jmicro;
+		jmicro["guid"] = micro[i].guid;
+		jmicro["index"] = micro[i].index;
+		jmicro["name"] = micro[i].name;
+		info.append(jmicro);
+	}
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << info.toStyledString());
+	return info;
+}
+
+int CWinSDKBase::selectMicroPhone(int microphoneIndex)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__);
+	int ret = ::selectMicroPhone(microphoneIndex);
 	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
 	return ret;
 }

@@ -56,8 +56,10 @@ void WebCallWSclient::OnMessage(const std::string & message)
 
 	if (jsonReader.parse(message, jsonEvent)) {
 
+		if (jsonEvent.isObject() && jsonEvent["type"].isString() && jsonEvent["type"].asString() == "cmd") {
 
-		if (!jsonEvent.isObject() || !(jsonEvent["type"].isString() && jsonEvent["type"].asString() == "cmd")){
+		}
+		else {
 			LOG4CPLUS_ERROR(log, m_SessionId << ", " << message << " not cmd type");
 			return;
 		}
@@ -74,10 +76,10 @@ void WebCallWSclient::OnMessage(const std::string & message)
 		cmdresult["cmdresult"] = cmd;
 
 		if (cmd == "initialize") {
-			cmdresult["param"]["return"] = initialize();
+			cmdresult["param"]["return"] = 0;//initialize();
 		}
 		else if (cmd == "unInitialize ") {
-			cmdresult["param"]["return"] = unInitialize();
+			cmdresult["param"]["return"] = 0;// unInitialize();
 		}
 		else if (cmd == "connectToCCPServer") {
 
@@ -113,15 +115,15 @@ void WebCallWSclient::OnMessage(const std::string & message)
 		}
 		else if (cmd == "setTraceFlag") {
 			bool enable = true;
-			const char * fileName = nullptr;
+			const char * fileName = "";
 			uint32_t logLevel = 23;
 
 			if (jsonEvent["param"]["enable"].isInt()) {
 				enable = jsonEvent["param"]["enable"].isInt();
 			}
 
-			if (jsonEvent["param"]["fileName"].isString()) {
-				fileName = jsonEvent["param"]["fileName"].asCString();
+			if (jsonEvent["param"]["logFileName"].isString()) {
+				fileName = jsonEvent["param"]["logFileName"].asCString();
 			}
 
 			if (jsonEvent["param"]["logLevel"].isInt()) {
@@ -298,6 +300,18 @@ void WebCallWSclient::OnMessage(const std::string & message)
 			//cmdresult["param"]["enable"] = getCodecEnabled(type);
 
 		}
+		else if (cmd =="getMicroPhoneInfo")
+		{
+			cmdresult["param"]["return"] = getMicroPhoneInfo();
+		}
+		else if (cmd == "selectMicroPhone")
+		{
+			uint32_t index = 0;
+			if (jsonEvent["param"]["index"].isInt()) {
+				index = jsonEvent["param"]["index"].asInt();
+			}
+			cmdresult["param"]["return"] = selectMicroPhone(index);
+		}
 		else if (cmd == "setAudioRecordStatus") {
 			std::string path;
 			uint32_t status;
@@ -388,13 +402,11 @@ void WebCallWSclient::OnMessage(const std::string & message)
 		}
 		else if (cmd == "getVersion")
 		{
-			cmdresult["param"]["return"] = 0;
-			cmdresult["param"]["version"] = getVersion();
+			cmdresult["param"]["return"] = getVersion();
 		}
 		else if (cmd == "version")
 		{
-			cmdresult["param"]["return"] = 0;
-			cmdresult["param"]["version"] = getVersion();
+			cmdresult["param"]["return"] = getVersion();
 		}
 		else if (cmd == "setRegConfig")
 		{
@@ -998,7 +1010,7 @@ void WebCallWSclient::onDtmfReceived(const char *callid, char dtmf)
 
 void WebCallWSclient::onLogInfo(const char* loginfo)
 {
-	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
+	//LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
 	Json::FastWriter writer;
 	out["type"] = "event";
@@ -1014,7 +1026,7 @@ void WebCallWSclient::onLogInfo(const char* loginfo)
 		it->Send(strout.c_str(), strout.length());
 	}
 
-	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
+	//LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
 void WebCallWSclient::onLogOut(unsigned int tcpMsgIdOut, int reason)

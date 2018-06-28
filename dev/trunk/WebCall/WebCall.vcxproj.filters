@@ -100,4 +100,8 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="demo.html" />
+    <None Include="WebCall.js" />
+  </ItemGroup>
 </Project>

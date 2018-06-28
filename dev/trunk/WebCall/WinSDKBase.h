@@ -3,6 +3,7 @@
 #include <log4cplus/logger.h>
 #include "CCPClient.h"
 #include <mutex>
+#include <json/json.h>
 
 
 class CWinSDKBase
@@ -119,6 +120,8 @@ public:
 	int setCodecEnabled(int codecid, int enabled);
 	bool getCodecEnabled(int codecid);
 	int setMute(bool on);
+	Json::Value getMicroPhoneInfo();
+	int selectMicroPhone(int microphoneIndex);
 
 };
 
