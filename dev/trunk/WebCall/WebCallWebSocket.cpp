@@ -268,6 +268,22 @@ void WebCallWSclient::OnMessage(const std::string & message)
 			cmdresult["param"]["callid"] = callid;
 	
 		}
+		else if (cmd == "setUserData")
+		{
+			uint32_t type = 0;
+			std::string data;
+
+			if (jsonEvent["param"]["type"].isInt()) {
+				type = jsonEvent["param"]["type"].asInt();
+			}
+
+			if (jsonEvent["param"]["data"].isString()) {
+				data = jsonEvent["param"]["data"].asString();
+			}
+
+			//cmdresult["param"]["return"] = setCodecEnabled(type, enable == 0 ? false : true);
+			cmdresult["param"]["return"] = setUserData(type, data.c_str());
+		}
 		else if (cmd == "setCodecEnabled") {
 
 			uint32_t type = 0;

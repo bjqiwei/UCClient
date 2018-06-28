@@ -48,7 +48,8 @@
             btnCall.disabled = !(b_connected);
 			btnCall.value = btnCall.innerHTML = '呼叫';
 			btnCall.onclick = function () {
-			    WebCall.MakeCall(txtPhoneNumber.value,  txtCustomerID.value + '_' + txtAgentID.value );
+			    WebCall.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+			    WebCall.makeCall(txtPhoneNumber.value);
 			}
             btnHangUp.disabled = true;
         }
@@ -59,12 +60,13 @@
             btnHangUp.value = '挂机';
             btnHoldRetrieve.value = '保持';
 			btnHoldRetrieve.onclick = function(){
-				WebCall.HoldCall(WebCall.callid);
+				WebCall.pauseCall(WebCall.callid);
 			}
             btnCall.disabled = false;
 			btnCall.value = btnCall.innerHTML = '呼叫';
 			btnCall.onclick = function () {
-                WebCall.MakeCall(txtPhoneNumber.value,txtCustomerID.value + '_' + txtAgentID.value );
+			    WebCall.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value );
+                WebCall.makeCall(txtPhoneNumber.value);
             };
             btnHangUp.disabled = true;
 			document.getElementById("ringbacktone").pause();
@@ -118,14 +120,15 @@
 		}
 		
 		var sRemoteNumber;
-        WebCall.onReceived = function (e) {
+		WebCall.onIncomingCallReceived = function (e) {
             btnHangUp.value = '挂机';
             btnHangUp.disabled = false;
 			
             btnCall.disabled = false;
 			btnCall.value = btnCall.innerHTML = '应答';
 			btnCall.onclick = function () {
-                WebCall.AnswerCall(WebCall.callid,txtCustomerID.value + '_' + txtAgentID.value);
+			    WebCall.setUserData(3, txtCustomerID.value + '_' + txtAgentID.value);
+			    WebCall.acceptCall(WebCall.callid);
             };
 			
             document.getElementById("ringtone").play();
@@ -134,7 +137,7 @@
         }
 
 
-        WebCall.onCallCleared = function (e) {
+        WebCall.onCallReleased = function (e) {
 			
 			if(e.callid === otherCall)
 				otherCall = null;
@@ -168,37 +171,29 @@
             }
         }
 
-        WebCall.onLogout = function () {
+        WebCall.onSipLogOut = function () {
             uiOnConnectionEvent(false, false);
             txtRegStatus.innerHTML = "<i>" + "已退出" + "</i>";
         }
 
 
 
-        WebCall.onHeld = function (e) {
-            otherCall = e.callid;
-		    if(e.cause === WebCall.Cause.Consultation){
-				activeCall = e.newCall;
-				btnConsultaion.value = '接回';
-				btnConsultaion.disabled = false;
-				btnConsultaion.onclick = function () {
-					WebCall.ReconnectCall(activeCall,otherCall);
-				};
-				txtCallStatus.innerHTML = '<i>咨询通话保持</i>';
-				
-				btnHoldRetrieve.disabled = true;
-				btnTransfer.disabled = true;
-				return;
-			}
-			
-			if(e.cause === WebCall.Cause.Alternate){
+        WebCall.onCallPaused = function (e) {
+            
+            if (e.reason != 200) {
+                btnHoldRetrieve.value = '保持';
+                btnHoldRetrieve.onclick = function () {
+                    WebCall.pauseCall(WebCall.callid);
+                }
+                btnHoldRetrieve.disabled = false;
+                txtCallStatus.innerHTML = '<i>通话保持失败</i>';
 				return;
 			}
 			
             btnHoldRetrieve.value = '恢复';
             btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.onclick = function () {
-				WebCall.RetrieveCall(activeCall);
+			    WebCall.resumeCall(WebCall.callid);
 			};
 			
 			btnConsultaion.disabled = true;
@@ -220,22 +215,23 @@
             btnHangUp.disabled = false;
 		}
 		
-		WebCall.onDelivered = function(e){
-			activeCall = e.callid;
+		WebCall.onCallAlerting = function (e) {
+			/*activeCall = e.callid;
 			if(e.cause === WebCall.Cause.Consultation){
 				txtCallStatus.innerHTML = '<i>咨询对方振铃</i>';
 				btnCall.disabled = true;
 				btnHangUp.disabled = false;
 				return;
-			}
+			}*/
 			txtCallStatus.innerHTML = '<i>对方振铃</i>';
 			btnCall.disabled = true;
             btnHangUp.disabled = false;
 		}
 		
-		WebCall.onEstablished = function(e)
+		WebCall.onCallAnswered = function (e)
 		{	
-			activeCall = e.callid;
+		    /*
+            activeCall = e.callid;
 			if(e.cause === WebCall.Cause.Consultation){
 				txtCallStatus.innerHTML = '<i>咨询通话中</i>';
 				btnCall.disabled = true;
@@ -260,6 +256,7 @@
 				
 				return;
 			}
+            */
 			txtCallStatus.innerHTML = '<i>通话中</i>';
 			btnCall.disabled = true;
             btnHangUp.disabled = false;
@@ -267,7 +264,7 @@
 			btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.value='保持';
 			btnHoldRetrieve.onclick = function(){
-				WebCall.HoldCall(WebCall.callid);
+				WebCall.pauseCall(WebCall.callid);
 			};
 			
 			btnTransfer.disabled = false;
@@ -294,23 +291,18 @@
 			divCallOptions.style.opacity = 1;
 		}
 		
-        WebCall.onHeldFailed = function (e) {
-            btnHoldRetrieve.value = '保持';
-			btnHoldRetrieve.onclick = function(){
-				WebCall.HoldCall(WebCall.callid);
-			}
-            btnHoldRetrieve.disabled = false;
-            txtCallStatus.innerHTML = '<i>通话保持失败</i>';
-        }
 
-        WebCall.onRetrieved = function (e) {
-		
-			activeCall = e.callid;
+		WebCall.onCallResumed = function (e) {
 			
-			if(e.cause === WebCall.Cause.Alternate){
-				return;
-			}
-			
+		    if (e.reason != 200) {
+		        btnHoldRetrieve.disabled = false;
+		        btnHoldRetrieve.onclick = function () {
+		            WebCall.resumeCall(WebCall.callid);
+		        }
+		        txtCallStatus.innerHTML = '<i>恢复通话失败</i>';
+		        return;
+		    }
+
 			txtCallStatus.innerHTML = '<i>通话中</i>';
 			btnCall.disabled = true;
             btnHangUp.disabled = false;
@@ -318,7 +310,7 @@
 			btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.value='保持';
 			btnHoldRetrieve.onclick = function(){
-				WebCall.HoldCall(activeCall);
+				WebCall.pauseCall(WebCall.callid);
 			};
 			
 			btnTransfer.disabled = false;
@@ -340,15 +332,6 @@
 				WebCall.SingleStepConference(activeCall,txtPhoneNumber.value,txtCustomerID.value + '_' + txtAgentID.value );
 			}
         }
-
-        WebCall.onRetrieveFailed = function (e) {
-            btnHoldRetrieve.disabled = false;
-		    btnHoldRetrieve.onclick = function(){
-				WebCall.RetrieveCall(WebCall.callid);
-			}
-            txtCallStatus.innerHTML = '<i>恢复通话失败</i>';
-        }
-
 
         WebCall.onTransferred = function (e) {
             txtCallStatus.innerHTML = '<i>呼叫转接结束</i>';
@@ -375,7 +358,7 @@
 
         function sipRegister() {
             WebCall.setLogLevel(txtLogLevel.value);
-            WebCall.Login(txtServerIP.value, txtPort.value, txtPrivateIdentity.value, txtPassword.value);
+            WebCall.connectToCCPServer(txtServerIP.value, txtPort.value, txtPrivateIdentity.value, txtPassword.value);
 			uiOnConnectionEvent(false,true);
         }
 		
@@ -476,7 +459,7 @@
                     <td colspan="2" align="right">
                         <input type="button" class="btn btn-success" id="btnRegister" value="登陆" disabled onclick='sipRegister();'/>
                         &nbsp;
-                        <input type="button" class="btn btn-danger" id="btnUnRegister" value="注销" disabled onclick='WebCall.Logout();'/>
+                        <input type="button" class="btn btn-danger" id="btnUnRegister" value="注销" disabled onclick='WebCall.disConnectToCCP();'/>
                     </td>
                 </tr>
             </table>
@@ -506,7 +489,7 @@
                             </div>
                             &nbsp;&nbsp;
                             <div class="btn-group">
-                                <input type="button" id="btnHangUp" style="margin: 0; vertical-align:middle; height: 100%;" class="btn btn-primary" value="挂机" onclick='WebCall.ClearCall();'
+                                <input type="button" id="btnHangUp" style="margin: 0; vertical-align:middle; height: 100%;" class="btn btn-primary" value="挂机" onclick='WebCall.releaseCall(WebCall.callid, 0);'
                                        disabled/>
                             </div>
                         </div>
@@ -515,7 +498,7 @@
                 <tr>
                     <td align='center'>
                         <div id='divCallOptions' class='call-options' style='opacity: 0; margin-top: 0px'>
-                            <input type="button" class="btn" style="" id="btnHoldRetrieve" value="保持" onclick='WebCall.HoldCall(WebCall.callid);'/> &nbsp;
+                            <input type="button" class="btn" style="" id="btnHoldRetrieve" value="保持" onclick='WebCall.pauseCall(WebCall.callid);'/> &nbsp;
                             <input type="button" class="btn" style="" id="btnTransfer" value="转接"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnConsultaion" value="咨询"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnAlternate" value="切换"/> &nbsp;

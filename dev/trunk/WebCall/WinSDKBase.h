@@ -122,6 +122,7 @@ public:
 	int setMute(bool on);
 	Json::Value getMicroPhoneInfo();
 	int selectMicroPhone(int microphoneIndex);
+	int setUserData(int type, const char *data);
 
 };
 

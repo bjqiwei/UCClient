@@ -36,6 +36,7 @@ void CWinSDKBase::sonWillCloseTcp(void)
 
 void CWinSDKBase::sonIncomingCallReceived(int callType, int confType, const char *callid, const char *caller)  //ÓÐºô½ÐºôÈë
 {
+	::alertingCall(callid);
 	if (g_Instance) g_Instance->onIncomingCallReceived(callType, confType, callid, caller);
 }
 
@@ -379,6 +380,14 @@ int CWinSDKBase::selectMicroPhone(int microphoneIndex)
 {
 	LOG4CPLUS_DEBUG(log, __FUNCTION__);
 	int ret = ::selectMicroPhone(microphoneIndex);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+	return ret;
+}
+
+int CWinSDKBase::setUserData(int type, const char *data)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " type:" << type << ", data:" << data);
+	int ret = ::setUserData(type, data);
 	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
 	return ret;
 }
