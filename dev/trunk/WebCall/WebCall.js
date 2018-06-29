@@ -228,6 +228,22 @@
                             }
                         }
                         return;
+                    case "consultTransferCall":
+                        {
+                            WebCall.info("WebCall consultTransferCall=" + event.param.return);
+                            if (typeof (WebCall.onConsultTransferCall) == "function") {
+                                WebCall.onConsultTransferCall(event.param.return);
+                            }
+                        }
+                        return;
+                    case "transferMeeting":
+                        {
+                            WebCall.info("WebCall transferMeeting=" + event.param.return);
+                            if (typeof (WebCall.onTransferMeeting) == "function") {
+                                WebCall.onTransferMeeting(event.param.return);
+                            }
+                        }
+                        return;
                     default:
                         WebCall.warn("WebCall:cmdresult未知命令:" + evt.data);
                         return;
@@ -257,8 +273,9 @@
                         return;
                     case "onCallReleased":
                         {
-                            if (WebCall.SessionS[event.param.callid])
-                                event.param.cause = WebCall.SessionS[event.param.callid]._cause;
+                            if (WebCall.SessionS[event.param.callid]._status == WebCall.STATUS.STATUS_RECONNECTING)
+                                event.param.cause = WebCall.Cause.Reconnection;
+
                             delete WebCall.SessionS[event.param.callid];
                             if (WebCall.callid == event.param.callid)
                                 WebCall.callid = null;
@@ -311,6 +328,9 @@
                                 event.param.cause = WebCall.Cause.Consultation;
                             }
 
+                            if (WebCall.SessionS[event.param.callid]._status == WebCall.STATUS.STATUS_ALTERNATEING)
+                                event.param.cause = WebCall.Cause.Alternate;
+
                             if (typeof (WebCall.onCallPaused) == "function") {
                                 WebCall.onCallPaused(event.param);
                             }
@@ -321,6 +341,10 @@
                             WebCall.callid = event.param.callid;
                             if (WebCall.SessionS[event.param.callid]._status === WebCall.STATUS.STATUS_RECONNECTING)
                                 WebCall.SessionS[event.param.callid]._status = WebCall.STATUS.STATUS_CONNECTED;
+
+                            if (WebCall.SessionS[event.param.callid]._status == WebCall.STATUS.STATUS_ALTERNATEING)
+                                event.param.cause = WebCall.Cause.Alternate;
+
                             if (typeof (WebCall.onCallResumed) == "function") {
                                 WebCall.onCallResumed(event.param);
                             }
@@ -337,6 +361,13 @@
                         {
                             if (typeof (WebCall.onDtmfReceived) == "function") {
                                 WebCall.onDtmfReceived(event.param);
+                            }
+                        }
+                        return;
+                    case "onMeetingTransfered":
+                        {
+                            if (typeof (WebCall.onMeetingTransfered) == "function") {
+                                WebCall.onMeetingTransfered(event.param);
                             }
                         }
                         return;
@@ -471,20 +502,6 @@
             WebCall.doSend(cmd);
         },
 
-        // 咨询后转接
-        TransferCall: function (heldCall, transferTargetCall) {
-            WebCall.debug("TransferCall,heldCall:" + heldCall + ",transferTargetCall:" + transferTargetCall);
-            if (heldCall && WebCall.SessionS[heldCall] && transferTargetCall && WebCall.SessionS[transferTargetCall]) {
-                WebCall.debug('Transfering the call...');
-                var SessionS = WebCall.SessionS[heldCall].refer(WebCall.SessionS[transferTargetCall]);
-                return 0;
-
-            }
-            else {
-                WebCall.error("TransferCall, the call is not exist.");
-                return 1;
-            }
-        },
         /**
          * 保持
          * @param callid
@@ -543,7 +560,7 @@
             WebCall.debug("ReconnectCall,activeCall:" + activeCall + ",heldCall:" + heldCall);
 
             if (activeCall && WebCall.SessionS[activeCall]) {
-                WebCall.SessionS[activeCall]._cause = WebCall.Cause.Reconnection;
+                WebCall.SessionS[activeCall]._status = WebCall.STATUS.STATUS_RECONNECTING;
                 WebCall.releaseCall(activeCall);
             }
 
@@ -558,6 +575,20 @@
 
         },
 
+        // 咨询后转接
+        consultTransferCall:function(callid, consultCallid, destination){
+            WebCall.debug("consultTransferCall,callid:" + callid + ", consultCallid:" + consultCallid + ",destination:" + destination);
+            var cmd = {};
+            cmd.type = "cmd";
+            cmd.cmd = "consultTransferCall";
+            cmd.param = {};
+            cmd.param.callid = callid;
+            cmd.param.consultCallid = consultCallid;
+            cmd.param.dest = destination;
+            cmd.param.type = 0;
+            WebCall.doSend(cmd);
+        },
+        
         //切换通话
         AlternateCall: function (activeCall, otherCall) {
             WebCall.debug("AlternateCall,activeCall:" + activeCall + ",otherCall:" + otherCall);
@@ -572,44 +603,28 @@
             }
             WebCall.SessionS[activeCall]._status = WebCall.STATUS.STATUS_ALTERNATEING;
             WebCall.SessionS[otherCall]._status = WebCall.STATUS.STATUS_ALTERNATEING;
-            WebCall.HoldCall(activeCall);
-            WebCall.RetrieveCall(otherCall);
+            WebCall.pauseCall(activeCall);
+            WebCall.resumeCall(otherCall);
         },
 
-        //咨询后会议
-        ConferenceCall: function (heldCall, otherCall) {
-            WebCall.debug("ConferenceCall,otherCall:" + otherCall + ",heldCall:" + heldCall);
-            if (!heldCall || !WebCall.SessionS[heldCall]) {
-                WebCall.error("ConferenceCall, the heldCall is not exist.");
-                return 1;
-            }
+        //会议
+        transferMeeting: function (type, activeCall, otherCall, consultedUser) {
+            WebCall.debug("transferMeeting, type:" + type + ",activeCall:" + activeCall + ",otherCall:" + otherCall + ",consultedUser:" + consultedUser);
+            if (activeCall && WebCall.SessionS[activeCall])
+                WebCall.SessionS[activeCall]._status = WebCall.STATUS.STATUS_CONFERENCEING;
 
-            if (!otherCall || !WebCall.SessionS[otherCall]) {
-                WebCall.error("ConferenceCall, the otherCall is not exist.");
-                return 1;
-            }
-            WebCall.SessionS[heldCall]._status = WebCall.STATUS.STATUS_CONFERENCEING;
-            WebCall.SessionS[heldCall].reinvite({ extraHeaders: ["P-Conf-MetaData: type=1;join=true"] });
-
-            WebCall.SessionS[otherCall]._status = WebCall.STATUS.STATUS_CONFERENCEING;
-            WebCall.SessionS[otherCall].reinvite({ extraHeaders: ["P-Conf-MetaData: type=1;join=false"] });
-        },
-
-        //单步会议
-        SingleStepConference: function (activeCall, destination, userdata) {
-            WebCall.debug("SingleStepConference,activeCall:" + activeCall + ",destination:" + destination);
-            if (!activeCall || !WebCall.SessionS[activeCall]) {
-                WebCall.error("SingleStepConference, the call is not exist.");
-                return 1;
-            }
-
-            WebCall.SessionS[activeCall]._status = WebCall.STATUS.STATUS_SINGLESTEPCONFERENCEING;
-            WebCall.SessionS[activeCall].reinvite({
-                extraHeaders: ["P-Conf-MetaData: type=0;user=" + destination + ";join=true",
-				"P-User-to-User:" + (userdata ? typeof (userdata) === "string" ? userdata : JSON.stringify(userdata) : "")
-                ]
-            });
-
+            if (otherCall && WebCall.SessionS[otherCall])
+                WebCall.SessionS[otherCall]._status = WebCall.STATUS.STATUS_CONFERENCEING;
+            
+            var cmd = {};
+            cmd.type = "cmd";
+            cmd.cmd = "transferMeeting";
+            cmd.param = {};
+            cmd.param.callid = activeCall;
+            cmd.param.consultCallid = otherCall;
+            cmd.param.consultedUser = consultedUser;
+            cmd.param.type = type;
+            WebCall.doSend(cmd);
         },
 
 

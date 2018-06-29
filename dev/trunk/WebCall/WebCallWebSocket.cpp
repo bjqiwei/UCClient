@@ -268,6 +268,54 @@ void WebCallWSclient::OnMessage(const std::string & message)
 			cmdresult["param"]["callid"] = callid;
 	
 		}
+		else if (cmd == "consultTransferCall")
+		{
+			std::string callid;
+			std::string consultCallid;
+			std::string dest;
+
+			if (jsonEvent["param"]["callid"].isString()) {
+				callid = jsonEvent["param"]["callid"].asString();
+			}
+
+			if (jsonEvent["param"]["dest"].isString()) {
+				dest = jsonEvent["param"]["dest"].asString();
+			}
+
+			if (jsonEvent["param"]["consultCallid"].isString()) {
+				consultCallid = jsonEvent["param"]["consultCallid"].asString();
+			}
+
+			cmdresult["param"]["return"] = consultTransferCall(callid.c_str(), consultCallid.c_str(), dest.c_str());
+			cmdresult["param"]["callid"] = callid;
+
+		}
+		else if (cmd == "transferMeeting")
+		{
+			uint32_t type = 0;
+			std::string callid;
+			std::string consultCallid;
+			std::string consultedUser;
+			
+			if (jsonEvent["param"]["type"].isInt()) {
+				type = jsonEvent["param"]["type"].asInt();
+			}
+			
+			if (jsonEvent["param"]["callid"].isString()) {
+				callid = jsonEvent["param"]["callid"].asString();
+			}
+
+			if (jsonEvent["param"]["consultedUser"].isString()) {
+				consultedUser = jsonEvent["param"]["consultedUser"].asString();
+			}
+
+			if (jsonEvent["param"]["consultCallid"].isString()) {
+				consultCallid = jsonEvent["param"]["consultCallid"].asString();
+			}
+
+			cmdresult["param"]["return"] = transferMeeting(type, callid.c_str(), consultCallid.c_str(), consultedUser.c_str());
+			cmdresult["param"]["callid"] = callid;
+		}
 		else if (cmd == "setUserData")
 		{
 			uint32_t type = 0;

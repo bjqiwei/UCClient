@@ -263,12 +263,12 @@
 				btnTransfer.disabled = false;
 				btnTransfer.value ='转接';
 				btnTransfer.onclick = function(){
-					WebCall.TransferCall(otherCall, activeCall);
+				    WebCall.consultTransferCall(otherCall, activeCall, txtPhoneNumber.value);
 				};
 				
 				btnConference.disabled = false;
 				btnConference.onclick = function(){
-					WebCall.ConferenceCall(otherCall,activeCall);
+				    WebCall.transferMeeting(1, activeCall, otherCall, "");
 				}
 				
 				return;
@@ -300,8 +300,9 @@
 			btnAlternate.disabled = true;
 			
 			btnConference.disabled = false;
-			btnConference.onclick = function(){
-				WebCall.SingleStepConference(activeCall,txtPhoneNumber.value,txtCustomerID.value + '_' + txtAgentID.value );
+			btnConference.onclick = function () {
+			    WebCall.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+			    WebCall.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
 			}
 			
 			document.getElementById("ringbacktone").pause();
@@ -353,8 +354,9 @@
             btnAlternate.disabled = true;
 			
 			btnConference.disabled = false;
-			btnConference.onclick = function(){
-				WebCall.SingleStepConference(activeCall,txtPhoneNumber.value,txtCustomerID.value + '_' + txtAgentID.value );
+			btnConference.onclick = function () {
+			    WebCall.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+				WebCall.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
 			}
         }
 
@@ -369,7 +371,11 @@
 		    }
         }
 
-		WebCall.onConferenced = function(e){
+		WebCall.onMeetingTransfered = function (e) {
+		    if (e.reason != 200) {
+		        txtCallStatus.innerHTML = '<i>会议失败 ' + e.reason + e.msg + '</i>';
+		        return;
+		    }
             txtCallStatus.innerHTML = '<i>会议中</i>';
 			btnHoldRetrieve.disabled = true;
             btnTransfer.disabled = true;
@@ -378,9 +384,7 @@
 			btnConference.disabled = true;
 		}
 		
-		WebCall.onConferenceFailed = function(e){
-            txtCallStatus.innerHTML = '<i>会议失败 ' + e.reason + e.msg + '</i>';
-        }
+       
 
         function sipRegister() {
             WebCall.setLogLevel(txtLogLevel.value);

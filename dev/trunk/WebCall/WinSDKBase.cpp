@@ -391,3 +391,19 @@ int CWinSDKBase::setUserData(int type, const char *data)
 	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
 	return ret;
 }
+
+int CWinSDKBase::consultTransferCall(const char * callid, const char * consultCallid, const char * destination)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " callid:" << callid << ", consultCallid:" << consultCallid << ", destination:" << destination);
+	int ret = ::consultTransferCall(callid, consultCallid, destination);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+	return ret;
+}
+
+int CWinSDKBase::transferMeeting(int type, const char *callid, const char *consultCallid, const char *consultedUser)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ "type:" << type << ", callid:" << callid << ", consultCallid:" << consultCallid << ", consultedUser:" << consultedUser);
+	int ret = ::transferMeeting(type, callid, consultCallid, consultedUser);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+	return ret;
+}

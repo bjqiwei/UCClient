@@ -123,6 +123,8 @@ public:
 	Json::Value getMicroPhoneInfo();
 	int selectMicroPhone(int microphoneIndex);
 	int setUserData(int type, const char *data);
+	int consultTransferCall(const char *callid, const char *consultCallid, const char *destination);
+	int transferMeeting(int type, const char *callid, const char *consultedCallid, const char *consultedUser);
 
 };
 
