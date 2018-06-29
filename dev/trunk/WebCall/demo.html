@@ -121,6 +121,7 @@
 		
 		var sRemoteNumber;
 		WebCall.onIncomingCallReceived = function (e) {
+		    activeCall = e.callid;
             btnHangUp.value = '挂机';
             btnHangUp.disabled = false;
 			
@@ -190,6 +191,10 @@
 				return;
 			}
 			
+			if(e.cause === WebCall.Cause.Alternate){
+				return;
+			}
+			
             btnHoldRetrieve.value = '恢复';
             btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.onclick = function () {
@@ -216,13 +221,26 @@
 		}
 		
 		WebCall.onCallAlerting = function (e) {
-			/*activeCall = e.callid;
-			if(e.cause === WebCall.Cause.Consultation){
+			
+		    if (e.cause === WebCall.Cause.Consultation) {
+		        otherCall = activeCall;
+		        activeCall = e.callid;
 				txtCallStatus.innerHTML = '<i>咨询对方振铃</i>';
 				btnCall.disabled = true;
 				btnHangUp.disabled = false;
+				
+				btnConsultaion.value = '接回';
+				btnConsultaion.disabled = false;
+				btnConsultaion.onclick = function () {
+				    WebCall.ReconnectCall(activeCall, otherCall);
+				};
+
+				btnHoldRetrieve.disabled = true;
+				btnTransfer.disabled = true;
 				return;
-			}*/
+		    }
+
+			activeCall = e.callid;
 			txtCallStatus.innerHTML = '<i>对方振铃</i>';
 			btnCall.disabled = true;
             btnHangUp.disabled = false;
@@ -230,9 +248,8 @@
 		
 		WebCall.onCallAnswered = function (e)
 		{	
-		    /*
-            activeCall = e.callid;
-			if(e.cause === WebCall.Cause.Consultation){
+		    activeCall = e.callid;
+			if (e.cause === WebCall.Cause.Consultation) {
 				txtCallStatus.innerHTML = '<i>咨询通话中</i>';
 				btnCall.disabled = true;
 				btnHangUp.disabled = false;
@@ -256,7 +273,7 @@
 				
 				return;
 			}
-            */
+
 			txtCallStatus.innerHTML = '<i>通话中</i>';
 			btnCall.disabled = true;
             btnHangUp.disabled = false;
@@ -304,6 +321,12 @@
 		        return;
 		    }
 
+			activeCall = e.callid;
+			
+			if(e.cause === WebCall.Cause.Alternate){
+				return;
+			}
+			
 			txtCallStatus.innerHTML = '<i>通话中</i>';
 			btnCall.disabled = true;
             btnHangUp.disabled = false;
@@ -318,13 +341,13 @@
 			btnTransfer.value ='转接';
 			btnTransfer.onclick = function(){
 			    WebCall.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-				WebCall.transferCall(WebCall.callid, txtPhoneNumber.value);
+				WebCall.transferCall(activeCall, txtPhoneNumber.value);
 			};
 
 			btnConsultaion.disabled = false;
 			btnConsultaion.value ='咨询';
 			btnConsultaion.onclick = function(){
-				WebCall.ConsultationCall(WebCall.callid, txtPhoneNumber.value, txtCustomerID.value + '_' + txtAgentID.value);
+			    WebCall.ConsultationCall(activeCall, txtPhoneNumber.value, txtCustomerID.value + '_' + txtAgentID.value);
 			};
 			
             btnAlternate.disabled = true;
@@ -403,7 +426,7 @@
                         <label style="height: 100%">服务器IP:</label>
                     </td>
                     <td>
-                        <input type="text" style="width: 100%; height: 100%" id="txtServerIP" value="192.168.177.187" />
+                        <input type="text" style="width: 100%; height: 100%" id="txtServerIP" value="47.88.171.173" />
                     </td>
                 </tr>
                 <tr>
@@ -411,7 +434,7 @@
                         <label style="height: 100%">端口:</label>
                     </td>
                     <td>
-                        <input type="text" style="width: 100%; height: 100%" id="txtPort" value="8600" />
+                        <input type="text" style="width: 100%; height: 100%" id="txtPort" value="16171" />
                     </td>
                 </tr>
                 <tr>
@@ -430,7 +453,7 @@
                         <label style="height: 100%">密码:</label>
                     </td>
                     <td>
-                        <input type="password" style="width: 100%; height: 100%" id="txtPassword" value="123456"/>
+                        <input type="password" style="width: 100%; height: 100%" id="txtPassword" value="4321!@#$"/>
                     </td>
                 </tr>
 
@@ -506,18 +529,18 @@
 							<input type="button" class="btn" style="" id="btnConsultaion" value="咨询"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnAlternate" value="切换"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnConference" value="会议"/> &nbsp;
-							<input type="button" class="btn" style="" value="0" onclick='WebCall.sendDTMF(null,"0");'/>
-							<input type="button" class="btn" style="" value="1" onclick='WebCall.sendDTMF(null,"1");'/>
-							<input type="button" class="btn" style="" value="2" onclick='WebCall.sendDTMF(null,"2");'/>
-							<input type="button" class="btn" style="" value="3" onclick='WebCall.sendDTMF(null,"3");'/>
-							<input type="button" class="btn" style="" value="4" onclick='WebCall.sendDTMF(null,"4");'/>
-							<input type="button" class="btn" style="" value="5" onclick='WebCall.sendDTMF(null,"5");'/>
-							<input type="button" class="btn" style="" value="6" onclick='WebCall.sendDTMF(null,"6");'/>
-							<input type="button" class="btn" style="" value="7" onclick='WebCall.sendDTMF(null,"7");'/>
-							<input type="button" class="btn" style="" value="8" onclick='WebCall.sendDTMF(null,"8");'/>
-							<input type="button" class="btn" style="" value="9" onclick='WebCall.sendDTMF(null,"9");'/>
-							<input type="button" class="btn" style="" value="*" onclick='WebCall.sendDTMF(null,"*");'/>
-							<input type="button" class="btn" style="" value="#" onclick='WebCall.sendDTMF(null,"#");'/>
+							<input type="button" class="btn" style="" value="0" onclick='WebCall.sendDTMF(activeCall,"0");'/>
+							<input type="button" class="btn" style="" value="1" onclick='WebCall.sendDTMF(activeCall,"1");'/>
+							<input type="button" class="btn" style="" value="2" onclick='WebCall.sendDTMF(activeCall, "2");'/>
+							<input type="button" class="btn" style="" value="3" onclick='WebCall.sendDTMF(activeCall,"3");'/>
+							<input type="button" class="btn" style="" value="4" onclick='WebCall.sendDTMF(activeCall, "4");'/>
+							<input type="button" class="btn" style="" value="5" onclick='WebCall.sendDTMF(activeCall, "5");'/>
+							<input type="button" class="btn" style="" value="6" onclick='WebCall.sendDTMF(activeCall, "6");'/>
+							<input type="button" class="btn" style="" value="7" onclick='WebCall.sendDTMF(activeCall, "7");'/>
+							<input type="button" class="btn" style="" value="8" onclick='WebCall.sendDTMF(activeCall, "8");'/>
+							<input type="button" class="btn" style="" value="9" onclick='WebCall.sendDTMF(activeCall, "9");'/>
+							<input type="button" class="btn" style="" value="*" onclick='WebCall.sendDTMF(activeCall, "*");'/>
+							<input type="button" class="btn" style="" value="#" onclick='WebCall.sendDTMF(activeCall, "#");'/>
                         </div>
                     </td>
                 </tr>

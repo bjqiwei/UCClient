@@ -2,7 +2,7 @@
 
     window.WebCall = window.WebCall || {
         callid: null,
-        SessionS: {},
+        SessionS: [],
         loglevel: "debug",
         websocketurl: null,
         websocket: null,
@@ -22,13 +22,14 @@
             CallCancelled: 1,
             CallNotAnswered: 2,
             Consultation: 3,
-            MakeCall: 4,
-            NewCall: 5,
-            NormalClearing: 6,
-            SingleStepConference: 7,
-            Conference: 8,
-            SingleStepTransfer: 9,
-            Transfer: 10
+            Reconnection:4,
+            MakeCall: 5,
+            NewCall: 6,
+            NormalClearing: 7,
+            SingleStepConference: 8,
+            Conference: 9,
+            SingleStepTransfer: 10,
+            Transfer: 11
         },
         /**
         *设置日志级别
@@ -256,6 +257,12 @@
                         return;
                     case "onCallReleased":
                         {
+                            if (WebCall.SessionS[event.param.callid])
+                                event.param.cause = WebCall.SessionS[event.param.callid]._cause;
+                            delete WebCall.SessionS[event.param.callid];
+                            if (WebCall.callid == event.param.callid)
+                                WebCall.callid = null;
+
                             if (typeof (WebCall.onCallReleased) == "function") {
                                 WebCall.onCallReleased(event.param);
                             }
@@ -263,8 +270,12 @@
                         return;
                     case "onCallAnswered":
                         {
+                            WebCall.SessionS[event.param.callid] = WebCall.SessionS[event.param.callid] || {};
+                            if (WebCall.callid && WebCall.callid != event.param.callid) {
+                                WebCall.SessionS[event.param.callid]._cause = WebCall.Cause.Consultation;
+                            }
+                            event.param.cause = WebCall.SessionS[event.param.callid]._cause;
                             WebCall.callid = event.param.callid;
-                            WebCall.SessionS[callid] = WebCall.SessionS[callid] || {};
                             if (typeof (WebCall.onCallAnswered) == "function") {
                                 WebCall.onCallAnswered(event.param);
                             }
@@ -272,8 +283,12 @@
                         return;
                     case "onCallAlerting":
                         {
+                            WebCall.SessionS[event.param.callid] = WebCall.SessionS[event.param.callid] || {};
+                            if (WebCall.callid && WebCall.callid != event.param.callid) {
+                                event.param.cause = WebCall.Cause.Consultation;
+                                WebCall.SessionS[event.param.callid]._cause = WebCall.Cause.Consultation;
+                            }
                             WebCall.callid = event.param.callid;
-                            WebCall.SessionS[callid] = WebCall.SessionS[callid] || {};
                             if (typeof (WebCall.onCallAlerting) == "function") {
                                 WebCall.onCallAlerting(event.param);
                             }
@@ -282,7 +297,7 @@
                     case "onIncomingCallReceived":
                         {
                             WebCall.callid = event.param.callid;
-                            WebCall.SessionS[callid] = WebCall.SessionS[callid] || {};
+                            WebCall.SessionS[event.param.callid] = WebCall.SessionS[event.param.callid] || {};
                             if (typeof (WebCall.onIncomingCallReceived) == "function") {
                                 WebCall.onIncomingCallReceived(event.param);
                             }
@@ -291,9 +306,9 @@
                     case "onCallPaused":
                         {
                             if (WebCall.SessionS[event.param.callid]._status == WebCall.STATUS.STATUS_CONSULTATIONING) {
-                                WebCall.setUserData(2, WebCall.SessionS[callid]._userdata);
-                                WebCall.makeCall(WebCall.SessionS[callid]._consultNumber);
-                                return;
+                                WebCall.setUserData(2, WebCall.SessionS[event.param.callid]._userdata);
+                                WebCall.makeCall(WebCall.SessionS[event.param.callid]._consultNumber);
+                                event.param.cause = WebCall.Cause.Consultation;
                             }
 
                             if (typeof (WebCall.onCallPaused) == "function") {
@@ -303,6 +318,9 @@
                         return;
                     case "onCallResumed":
                         {
+                            WebCall.callid = event.param.callid;
+                            if (WebCall.SessionS[event.param.callid]._status === WebCall.STATUS.STATUS_RECONNECTING)
+                                WebCall.SessionS[event.param.callid]._status = WebCall.STATUS.STATUS_CONNECTED;
                             if (typeof (WebCall.onCallResumed) == "function") {
                                 WebCall.onCallResumed(event.param);
                             }
@@ -437,7 +455,7 @@
             cmd.cmd = "sendDTMF";
             cmd.param = {};
             cmd.param.callid = callid;
-            cmd.param.dtmf = dtmf;
+            cmd.param.dtmf = c;
             WebCall.doSend(cmd);
         },
         // 盲转
@@ -523,16 +541,20 @@
          */
         ReconnectCall: function (activeCall, heldCall) {
             WebCall.debug("ReconnectCall,activeCall:" + activeCall + ",heldCall:" + heldCall);
+
+            if (activeCall && WebCall.SessionS[activeCall]) {
+                WebCall.SessionS[activeCall]._cause = WebCall.Cause.Reconnection;
+                WebCall.releaseCall(activeCall);
+            }
+
             if (heldCall && WebCall.SessionS[heldCall]) {
                 WebCall.SessionS[heldCall]._status = WebCall.STATUS.STATUS_RECONNECTING;
-                WebCall.debug('ReconnectCall the call...' + heldCall);
-                WebCall.SessionS[heldCall].unhold();
+                WebCall.debug('resumeCall the call...' + heldCall);
+                WebCall.resumeCall(heldCall);
             }
             else {
                 WebCall.error("ReconnectCall, the call is not exist.");
             }
-
-            WebCall.ClearCall(activeCall);
 
         },
 
