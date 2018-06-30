@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_json", "..\..\jsoncpp-src-0.5.0\makefiles\vs2015\lib_json.vcxproj", "{B84F7231-16CE-41D8-8C08-7B523FF4225B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VOIPDemo", "VOIPDemo\VOIPDemo.vcxproj", "{3CFF24EB-C6E7-4EEC-AB64-6C634A129EE0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "websockets", "..\..\libwebsockets-2.2.1\websockets.vcxproj", "{594E5E3E-E08D-3633-82D5-3672D7F07E35}"
 EndProject
@@ -17,12 +17,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "WebSocketPlugin", "WebSocke
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DuiLib", "DuiLib\DuiLib.vcxproj", "{E106ACD7-4E53-4AEE-942B-D0DD426DB34E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VOIPDemo", "VOIPDemo\VOIPDemo.vcxproj", "{3CFF24EB-C6E7-4EEC-AB64-6C634A129EE0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib_json", "..\..\jsoncpp-src-0.5.0\makefiles\vs2015\lib_json.vcxproj", "{B84F7231-16CE-41D8-8C08-7B523FF4225B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|x86 = Debug|x86
 		Release|x86 = Release|x86
+		Debug|x86 = Debug|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{B84F7231-16CE-41D8-8C08-7B523FF4225B}.Debug|x86.ActiveCfg = Debug|Win32

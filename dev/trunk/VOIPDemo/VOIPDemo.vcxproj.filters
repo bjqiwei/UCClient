@@ -42,9 +42,6 @@
     <ClInclude Include="websocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WebCallWebSocket.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="stringHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -60,12 +57,12 @@
     <ClInclude Include="WinSDKBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="VOIPDemoWebSocket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WebCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MainWnd.cpp">
@@ -80,15 +77,18 @@
     <ClCompile Include="websocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WebCallWebSocket.cpp">
+    <ClCompile Include="WinSDKBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="WinSDKBase.cpp">
+    <ClCompile Include="VOIPDemo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VOIPDemoWebSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WebCall.rc">
+    <ResourceCompile Include="VOIPDemo.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -96,12 +96,12 @@
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="WebCall.ico">
+    <Image Include="VOIPDemo.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="demo.html" />
-    <None Include="WebCall.js" />
+    <None Include="VOIPDemo.js" />
   </ItemGroup>
 </Project>

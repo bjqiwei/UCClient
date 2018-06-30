@@ -105,7 +105,10 @@
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
 xcopy /y $(SolutionDir)install\*.zip $(OutDir)
-xcopy /y $(SolutionDir)winsdk\*.dll $(OutDir)</Command>
+xcopy /y $(SolutionDir)winsdk\*.dll $(OutDir)
+xcopy /y /i /s /e $(ProjectDir)assets $(OutDir)assets
+xcopy /y $(ProjectDir)*.js $(OutDir)
+xcopy /y $(ProjectDir)*.html $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -149,7 +152,10 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
     <PostBuildEvent>
       <Command>xcopy /y $(SolutionDir)..\..\openssl1.1.0e\bin\*.dll $(OutDir)
 xcopy /y $(SolutionDir)install\*.zip $(OutDir)
-xcopy /y $(SolutionDir)winsdk\*.dll $(OutDir)</Command>
+xcopy /y $(SolutionDir)winsdk\*.dll $(OutDir)
+xcopy /y /i /s /e $(ProjectDir)assets $(OutDir)assets
+xcopy /y $(ProjectDir)*.js $(OutDir)
+xcopy /y $(ProjectDir)*.html $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

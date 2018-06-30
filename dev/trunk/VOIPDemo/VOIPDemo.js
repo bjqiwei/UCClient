@@ -307,7 +307,7 @@
                         return;
                     case "onCallReleased":
                         {
-                            if (VOIPDemo.SessionS[event.param.callid]._status == VOIPDemo.STATUS.STATUS_RECONNECTING)
+                            if (VOIPDemo.SessionS[event.param.callid] && VOIPDemo.SessionS[event.param.callid]._status == VOIPDemo.STATUS.STATUS_RECONNECTING)
                                 event.param.cause = VOIPDemo.Cause.Reconnection;
 
                             delete VOIPDemo.SessionS[event.param.callid];
@@ -416,7 +416,7 @@
         wsonError: function (evt) {
             VOIPDemo.error(evt.data);
             if (typeof (VOIPDemo.onWSError) == "function") {
-                VOIPDemo.onWSError(evt);
+                VOIPDemo.onWSError(evt?evt:"连接失败");
             }
         },
 

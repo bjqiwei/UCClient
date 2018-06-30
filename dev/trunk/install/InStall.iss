@@ -58,15 +58,16 @@ Source: "..\build\Win32\bin\libx279.dll"; DestDir: "{app}\x86"; Components:main;
 ;Source: "..\build\Win32\bin\ringback.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\DuiLib.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\default.zip"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+Source: "..\build\Win32\bin\assets\*"; DestDir: "{app}\x86\assets"; Components:main; Flags: recursesubdirs ignoreversion restartreplace uninsrestartdelete 32bit
+Source: "..\build\Win32\bin\*.js"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+Source: "..\build\Win32\bin\*.html"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 ; 注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
 
-[Icons]
-;Name: "{group}\VOIPDemo"; Filename: "{app}\x86\VOIPDemoCtrl.exe"
+[Icons]Name: "{group}\Demo"; Filename: "{app}\x86\Demo.html"
 Name: "{group}\VOIPDemo"; Filename: "{app}\x86\VOIPDemo.exe"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
 ;Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemoCtrl.exe"; WorkingDir: "{app}"
-Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemo.exe"; WorkingDir: "{app}"
-;Name: "{commondesktop}\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: desktopicon
+Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemo.exe"; WorkingDir: "{app}"Name: "{commondesktop}\Demo.html"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: quicklaunchicon
 [Run]
 ;Filename:"{app}\x86\VOIPDemoService.exe"; Parameters:"-install"
