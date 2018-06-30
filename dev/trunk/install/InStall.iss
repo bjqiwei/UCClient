@@ -6,7 +6,7 @@
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
 #define AppName "UCClient"
-#define AppVersion "1.0.0.3"
+#define AppVersion "1.0.0.4"
 AppId={{DF7797D1-6B99-4DB3-B78B-E47429FF3BD5}}
 AppName={#AppName}
 AppVersion={#AppVersion}
@@ -66,7 +66,7 @@ Source: "..\build\Win32\bin\*.html"; DestDir: "{app}\x86"; Components:main; Flag
 [Icons]Name: "{group}\Demo"; Filename: "{app}\x86\Demo.html"
 Name: "{group}\UCClient"; Filename: "{app}\x86\UCClient.exe"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\UCClient.exe"; WorkingDir: "{app}"Name: "{commondesktop}\Demo.html"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
+Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\UCClient.exe"; WorkingDir: "{app}"Name: "{commondesktop}\Demo"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: quicklaunchicon
 [Run]
 ;Filename: "net.exe"; Parameters: "start UCClient" 

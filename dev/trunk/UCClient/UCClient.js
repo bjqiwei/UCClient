@@ -656,7 +656,7 @@
             cmd.type = "cmd";
             cmd.cmd = "transferMeeting";
             cmd.param = {};
-            cmd.param.callid = otherCall;
+            cmd.param.callid = otherCall || activeCall;
             cmd.param.consultCallid = activeCall;
             cmd.param.consultedUser = consultedUser;
             cmd.param.type = type;
