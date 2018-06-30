@@ -1,5 +1,5 @@
 // stdafx.cpp : source file that includes just the standard includes
-// VOIPDemo.pch will be the pre-compiled header
+// UCClient.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"
@@ -66,11 +66,11 @@ void SetRegKey(CString name, CString strValue)
 {
 	CRegKey shKey;
 
-	LONG lResult = shKey.Create(HKEY_CURRENT_USER, "SoftWare\\ytx\\VOIPDemo");
-	log4cplus::Logger log = log4cplus::Logger::getInstance("VOIPDemo");
+	LONG lResult = shKey.Create(HKEY_CURRENT_USER, "SoftWare\\ytx\\UCClient");
+	log4cplus::Logger log = log4cplus::Logger::getInstance("UCClient");
 	if (lResult != ERROR_SUCCESS)
 	{
-		LOG4CPLUS_ERROR(log, _T("Create VOIPDemo RegKey failed."));
+		LOG4CPLUS_ERROR(log, _T("Create UCClient RegKey failed."));
 	}
 	else {
 		shKey.SetStringValue(name, strValue, REG_SZ);
@@ -83,11 +83,11 @@ void SetRegKey(CString name, DWORD value)
 {
 	CRegKey shKey;
 
-	LONG lResult = shKey.Create(HKEY_CURRENT_USER, "SoftWare\\ytx\\VOIPDemo");
-	log4cplus::Logger log = log4cplus::Logger::getInstance("VOIPDemo");
+	LONG lResult = shKey.Create(HKEY_CURRENT_USER, "SoftWare\\ytx\\UCClient");
+	log4cplus::Logger log = log4cplus::Logger::getInstance("UCClient");
 	if (lResult != ERROR_SUCCESS)
 	{
-		LOG4CPLUS_ERROR(log, _T("Create VOIPDemo RegKey failed."));
+		LOG4CPLUS_ERROR(log, _T("Create UCClient RegKey failed."));
 	}
 	else {
 		shKey.SetDWORDValue(name, value);
@@ -102,16 +102,16 @@ CString ReadRegKeyString(CString name, CString default)
 	CString strValue = default;
 	ULONG dwLen = MAX_PATH;
 	LONG lResult = ERROR_SUCCESS;
-	log4cplus::Logger log = log4cplus::Logger::getInstance("VOIPDemo");
+	log4cplus::Logger log = log4cplus::Logger::getInstance("UCClient");
 
-	lResult	= shKey.Open(HKEY_CURRENT_USER, "SoftWare\\ytx\\VOIPDemo", KEY_READ);
+	lResult	= shKey.Open(HKEY_CURRENT_USER, "SoftWare\\ytx\\UCClient", KEY_READ);
 
 	if (lResult == ERROR_SUCCESS){
 		lResult = shKey.QueryStringValue(name, strValue.GetBuffer(dwLen), &dwLen);
 	}
 
 	if (lResult != ERROR_SUCCESS){
-		lResult = shKey.Open(HKEY_USERS, ".DEFAULT\\SoftWare\\ytx\\VOIPDemo", KEY_READ);
+		lResult = shKey.Open(HKEY_USERS, ".DEFAULT\\SoftWare\\ytx\\UCClient", KEY_READ);
 		if (lResult == ERROR_SUCCESS) {
 			dwLen = MAX_PATH;
 			lResult = shKey.QueryStringValue(name, strValue.GetBuffer(dwLen), &dwLen);
@@ -121,7 +121,7 @@ CString ReadRegKeyString(CString name, CString default)
 	strValue.ReleaseBuffer();
 
 	if(lResult != ERROR_SUCCESS) {
-		LOG4CPLUS_ERROR(log, _T("Open VOIPDemo RegKey failed."));
+		LOG4CPLUS_ERROR(log, _T("Open UCClient RegKey failed."));
 	}
 	else {
 		LOG4CPLUS_DEBUG(log, __FUNCTION__" " << name << ":" << strValue);
@@ -135,23 +135,23 @@ DWORD ReadRegKeyDWORD(CString name, DWORD default)
 	CRegKey shKey;
 	DWORD dwValue = default;
 	LONG lResult = ERROR_SUCCESS;
-	log4cplus::Logger log = log4cplus::Logger::getInstance("VOIPDemo");
+	log4cplus::Logger log = log4cplus::Logger::getInstance("UCClient");
 
-	lResult = shKey.Open(HKEY_CURRENT_USER, "SoftWare\\ytx\\VOIPDemo", KEY_READ);
+	lResult = shKey.Open(HKEY_CURRENT_USER, "SoftWare\\ytx\\UCClient", KEY_READ);
 	if (lResult == ERROR_SUCCESS){
 		lResult = shKey.QueryDWORDValue(name, dwValue);
 	}
 
 	if (lResult != ERROR_SUCCESS)
 	{
-		lResult = shKey.Open(HKEY_USERS, ".DEFAULT\\SoftWare\\ytx\\VOIPDemo", KEY_READ);
+		lResult = shKey.Open(HKEY_USERS, ".DEFAULT\\SoftWare\\ytx\\UCClient", KEY_READ);
 		if (lResult == ERROR_SUCCESS) {
 			lResult = shKey.QueryDWORDValue(name, dwValue);
 		}
 	}
 
 	if(lResult != ERROR_SUCCESS) {
-		LOG4CPLUS_ERROR(log, _T("Open VOIPDemo RegKey failed."));
+		LOG4CPLUS_ERROR(log, _T("Open UCClient RegKey failed."));
 	}
 	else {
 		

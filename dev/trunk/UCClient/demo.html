@@ -1,12 +1,12 @@
 ﻿<html>
 <head>
     <meta charset="utf-8"/>
-    <title>live demo</title>
+    <title>UCClient demo</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <!-- Styles -->
     <link href="./assets/css/bootstrap.css" rel="stylesheet"/>
     <link href="./assets/css/bootstrap-responsive.css" rel="stylesheet"/>
-    <script type="text/javascript" src="./VOIPDemo.js"></script>
+    <script type="text/javascript" src="./UCClient.js"></script>
     <!-- Javascript code -->
     <script type="text/javascript">
         var oReadyStateTimer;
@@ -22,7 +22,7 @@
             oReadyStateTimer = setInterval(function () {
                         if (document.readyState === "complete") {
                             clearInterval(oReadyStateTimer);
-                            VOIPDemo.Connect("ws://127.0.0.1:19998");
+                            UCClient.Connect("ws://127.0.0.1:19998");
                         }
                     },
                     500);
@@ -30,7 +30,7 @@
         }
 		
 		window.onunload  = function (){
-			//VOIPDemo.ClearCall();
+			//UCClient.ClearCall();
 		}
 		
 		function getSeq(){
@@ -48,8 +48,8 @@
             btnCall.disabled = !(b_connected);
 			btnCall.value = btnCall.innerHTML = '呼叫';
 			btnCall.onclick = function () {
-			    VOIPDemo.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-			    VOIPDemo.makeCall(txtPhoneNumber.value);
+			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+			    UCClient.makeCall(txtPhoneNumber.value);
 			}
             btnHangUp.disabled = true;
         }
@@ -60,13 +60,13 @@
             btnHangUp.value = '挂机';
             btnHoldRetrieve.value = '保持';
 			btnHoldRetrieve.onclick = function(){
-				VOIPDemo.pauseCall(VOIPDemo.callid);
+				UCClient.pauseCall(UCClient.callid);
 			}
             btnCall.disabled = false;
 			btnCall.value = btnCall.innerHTML = '呼叫';
 			btnCall.onclick = function () {
-			    VOIPDemo.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value );
-                VOIPDemo.makeCall(txtPhoneNumber.value);
+			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value );
+                UCClient.makeCall(txtPhoneNumber.value);
             };
             btnHangUp.disabled = true;
 			document.getElementById("ringbacktone").pause();
@@ -82,23 +82,23 @@
             }, 2500);
         }
 
-        VOIPDemo.onWSOpen = function () {
-            if (!VOIPDemo.initialize()) {
+        UCClient.onWSOpen = function () {
+            if (!UCClient.initialize()) {
                 alert("initialize failed");
             }
         }
 
-        VOIPDemo.onWSError = function(evt)
+        UCClient.onWSError = function(evt)
         {
 
         }
 		
-        VOIPDemo.onInitialize = function(evt)
+        UCClient.onInitialize = function(evt)
         {
-            VOIPDemo.getMicroPhoneInfo();
+            UCClient.getMicroPhoneInfo();
         }
 
-        VOIPDemo.onGetMicroPhoneInfo = function (deviceInfos) {
+        UCClient.onGetMicroPhoneInfo = function (deviceInfos) {
             var audioInputSelect = document.querySelector('select#audioSource');
             for (var i = 0; i !== deviceInfos.length; ++i) {
                 var deviceInfo = deviceInfos[i];
@@ -111,16 +111,16 @@
 
             audioInputSelect.onchange = function () {
                 var audioInputSelect = document.querySelector('select#audioSource');
-                VOIPDemo.selectMicroPhone(audioInputSelect.value);
+                UCClient.selectMicroPhone(audioInputSelect.value);
             };
         }
 
-		VOIPDemo.onMakeCallFailed = function(e){
+		UCClient.onMakeCallFailed = function(e){
 			uiCallTerminated(e.reason + ":" + e.msg);
 		}
 		
 		var sRemoteNumber;
-		VOIPDemo.onIncomingCallReceived = function (e) {
+		UCClient.onIncomingCallReceived = function (e) {
 		    activeCall = e.callid;
             btnHangUp.value = '挂机';
             btnHangUp.disabled = false;
@@ -128,8 +128,8 @@
             btnCall.disabled = false;
 			btnCall.value = btnCall.innerHTML = '应答';
 			btnCall.onclick = function () {
-			    VOIPDemo.setUserData(3, txtCustomerID.value + '_' + txtAgentID.value);
-			    VOIPDemo.acceptCall(VOIPDemo.callid);
+			    UCClient.setUserData(3, txtCustomerID.value + '_' + txtAgentID.value);
+			    UCClient.acceptCall(UCClient.callid);
             };
 			
             document.getElementById("ringtone").play();
@@ -138,7 +138,7 @@
         }
 
 
-        VOIPDemo.onCallReleased = function (e) {
+        UCClient.onCallReleased = function (e) {
 			
 			if(e.callid === otherCall)
 				otherCall = null;
@@ -146,7 +146,7 @@
 				activeCall = null;
 				
 			if(otherCall || activeCall){
-				if (e.cause === VOIPDemo.Cause.Consultation){
+				if (e.cause === UCClient.Cause.Consultation){
 					txtCallStatus.innerHTML = "<i>" + "咨询失败" + e.reason + "</i>";
 				}
 				return;
@@ -156,7 +156,7 @@
             uiCallTerminated("已挂机:" + e.reason);
         }
 
-        VOIPDemo.onSipConnect = function (evt) {
+        UCClient.onSipConnect = function (evt) {
 
             if (evt.reason == 200) {
                 uiOnConnectionEvent(true, false);
@@ -172,26 +172,26 @@
             }
         }
 
-        VOIPDemo.onSipLogOut = function () {
+        UCClient.onSipLogOut = function () {
             uiOnConnectionEvent(false, false);
             txtRegStatus.innerHTML = "<i>" + "已退出" + "</i>";
         }
 
 
 
-        VOIPDemo.onCallPaused = function (e) {
+        UCClient.onCallPaused = function (e) {
             
             if (e.reason != 200) {
                 btnHoldRetrieve.value = '保持';
                 btnHoldRetrieve.onclick = function () {
-                    VOIPDemo.pauseCall(VOIPDemo.callid);
+                    UCClient.pauseCall(UCClient.callid);
                 }
                 btnHoldRetrieve.disabled = false;
                 txtCallStatus.innerHTML = '<i>通话保持失败</i>';
 				return;
 			}
 			
-            if (e.cause === VOIPDemo.Cause.Alternate) {
+            if (e.cause === UCClient.Cause.Alternate) {
                 otherCall = e.callid;
 				return;
 			}
@@ -199,7 +199,7 @@
             btnHoldRetrieve.value = '恢复';
             btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.onclick = function () {
-			    VOIPDemo.resumeCall(VOIPDemo.callid);
+			    UCClient.resumeCall(UCClient.callid);
 			};
 			
 			btnConsultaion.disabled = true;
@@ -207,9 +207,9 @@
             txtCallStatus.innerHTML = '<i>通话保持</i>';
         }
 
-		VOIPDemo.onOriginated = function(e){
+		UCClient.onOriginated = function(e){
 			activeCall = e.callid;
-			if(e.cause === VOIPDemo.Cause.Consultation){
+			if(e.cause === UCClient.Cause.Consultation){
 				txtCallStatus.innerHTML = '<i>咨询外呼中</i>';
 				btnCall.disabled = true;
 				btnHangUp.disabled = false;
@@ -221,9 +221,9 @@
             btnHangUp.disabled = false;
 		}
 		
-		VOIPDemo.onCallAlerting = function (e) {
+		UCClient.onCallAlerting = function (e) {
 			
-		    if (e.cause === VOIPDemo.Cause.Consultation) {
+		    if (e.cause === UCClient.Cause.Consultation) {
 		        otherCall = activeCall;
 		        activeCall = e.callid;
 				txtCallStatus.innerHTML = '<i>咨询对方振铃</i>';
@@ -233,7 +233,7 @@
 				btnConsultaion.value = '接回';
 				btnConsultaion.disabled = false;
 				btnConsultaion.onclick = function () {
-				    VOIPDemo.ReconnectCall(activeCall, otherCall);
+				    UCClient.ReconnectCall(activeCall, otherCall);
 				};
 
 				btnHoldRetrieve.disabled = true;
@@ -247,10 +247,10 @@
             btnHangUp.disabled = false;
 		}
 		
-		VOIPDemo.onCallAnswered = function (e)
+		UCClient.onCallAnswered = function (e)
 		{	
 		    activeCall = e.callid;
-			if (e.cause === VOIPDemo.Cause.Consultation) {
+			if (e.cause === UCClient.Cause.Consultation) {
 				txtCallStatus.innerHTML = '<i>咨询通话中</i>';
 				btnCall.disabled = true;
 				btnHangUp.disabled = false;
@@ -258,18 +258,18 @@
 				btnAlternate.disabled = false;
 				btnAlternate.value='切换';
 				btnAlternate.onclick = function(){
-					VOIPDemo.AlternateCall(activeCall,otherCall);
+					UCClient.AlternateCall(activeCall,otherCall);
 				}
 				
 				btnTransfer.disabled = false;
 				btnTransfer.value ='转接';
 				btnTransfer.onclick = function(){
-				    VOIPDemo.consultTransferCall(otherCall, activeCall, txtPhoneNumber.value);
+				    UCClient.consultTransferCall(otherCall, activeCall, txtPhoneNumber.value);
 				};
 				
 				btnConference.disabled = false;
 				btnConference.onclick = function(){
-				    VOIPDemo.transferMeeting(1, activeCall, otherCall, "");
+				    UCClient.transferMeeting(1, activeCall, otherCall, "");
 				}
 				
 				return;
@@ -282,28 +282,28 @@
 			btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.value='保持';
 			btnHoldRetrieve.onclick = function(){
-				VOIPDemo.pauseCall(VOIPDemo.callid);
+				UCClient.pauseCall(UCClient.callid);
 			};
 			
 			btnTransfer.disabled = false;
 			btnTransfer.value ='转接';
 			btnTransfer.onclick = function(){
-			    VOIPDemo.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-				VOIPDemo.transferCall(VOIPDemo.callid, txtPhoneNumber.value);
+			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+				UCClient.transferCall(UCClient.callid, txtPhoneNumber.value);
 			};
 
 			btnConsultaion.disabled = false;
 			btnConsultaion.value ='咨询';
 			btnConsultaion.onclick = function(){
-				VOIPDemo.ConsultationCall(VOIPDemo.callid, txtPhoneNumber.value, txtCustomerID.value + '_' + txtAgentID.value );
+				UCClient.ConsultationCall(UCClient.callid, txtPhoneNumber.value, txtCustomerID.value + '_' + txtAgentID.value );
 			};
 			
 			btnAlternate.disabled = true;
 			
 			btnConference.disabled = false;
 			btnConference.onclick = function () {
-			    VOIPDemo.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-			    VOIPDemo.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
+			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+			    UCClient.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
 			}
 			
 			document.getElementById("ringbacktone").pause();
@@ -312,12 +312,12 @@
 		}
 		
 
-		VOIPDemo.onCallResumed = function (e) {
+		UCClient.onCallResumed = function (e) {
 			
 		    if (e.reason != 200) {
 		        btnHoldRetrieve.disabled = false;
 		        btnHoldRetrieve.onclick = function () {
-		            VOIPDemo.resumeCall(VOIPDemo.callid);
+		            UCClient.resumeCall(UCClient.callid);
 		        }
 		        txtCallStatus.innerHTML = '<i>恢复通话失败</i>';
 		        return;
@@ -325,7 +325,7 @@
 
 			activeCall = e.callid;
 			
-			if (e.cause === VOIPDemo.Cause.Alternate) {
+			if (e.cause === UCClient.Cause.Alternate) {
 			    activeCall = e.callid;
 				return;
 			}
@@ -337,32 +337,32 @@
 			btnHoldRetrieve.disabled = false;
 			btnHoldRetrieve.value='保持';
 			btnHoldRetrieve.onclick = function(){
-				VOIPDemo.pauseCall(VOIPDemo.callid);
+				UCClient.pauseCall(UCClient.callid);
 			};
 			
 			btnTransfer.disabled = false;
 			btnTransfer.value ='转接';
 			btnTransfer.onclick = function(){
-			    VOIPDemo.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-				VOIPDemo.transferCall(activeCall, txtPhoneNumber.value);
+			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+				UCClient.transferCall(activeCall, txtPhoneNumber.value);
 			};
 
 			btnConsultaion.disabled = false;
 			btnConsultaion.value ='咨询';
 			btnConsultaion.onclick = function(){
-			    VOIPDemo.ConsultationCall(activeCall, txtPhoneNumber.value, txtCustomerID.value + '_' + txtAgentID.value);
+			    UCClient.ConsultationCall(activeCall, txtPhoneNumber.value, txtCustomerID.value + '_' + txtAgentID.value);
 			};
 			
             btnAlternate.disabled = true;
 			
 			btnConference.disabled = false;
 			btnConference.onclick = function () {
-			    VOIPDemo.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-				VOIPDemo.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
+			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
+				UCClient.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
 			}
         }
 
-		VOIPDemo.onCallTransfered = function (e) {
+		UCClient.onCallTransfered = function (e) {
 		    if (e.reason === 200) {
 		        txtCallStatus.innerHTML = '<i>呼叫转接结束</i>';
 		        btnTransfer.disabled = false;
@@ -373,7 +373,7 @@
 		    }
         }
 
-		VOIPDemo.onMeetingTransfered = function (e) {
+		UCClient.onMeetingTransfered = function (e) {
 		    if (e.reason != 200) {
 		        txtCallStatus.innerHTML = '<i>会议失败 ' + e.reason + e.msg + '</i>';
 		        return;
@@ -389,13 +389,13 @@
        
 
 		function sipRegister() {
-		    VOIPDemo.setTraceFlag(true, txtLogFileName.value, txtLogLevel.value);
+		    UCClient.setTraceFlag(true, txtLogFileName.value, txtLogLevel.value);
 		    var isSSL = document.querySelector('select#isSSL');
 		    if (isSSL.value == "true") {
-		        VOIPDemo.setSipTransportType(2);
-		        VOIPDemo.setSrtpEnabled(1, 2);
+		        UCClient.setSipTransportType(2);
+		        UCClient.setSrtpEnabled(1, 2);
 		    }
-            VOIPDemo.connectToCCPServer(txtServerIP.value, txtPort.value, txtPrivateIdentity.value, txtPassword.value);
+            UCClient.connectToCCPServer(txtServerIP.value, txtPort.value, txtPrivateIdentity.value, txtPassword.value);
 			uiOnConnectionEvent(false,true);
         }
 		
@@ -484,7 +484,7 @@
                         <label style="height: 100%">日志路径:</label>
                     </td>
                     <td>
-                        <input type="text" style="width: 100%; height: 100%" id="txtLogFileName" value="d:\\log\\sdk.log" />
+                        <input type="text" style="width: 100%; height: 100%" id="txtLogFileName" value="d:\log\sdk.log" />
                     </td>
                 </tr>
                 <tr>
@@ -515,7 +515,7 @@
                     <td colspan="2" align="right">
                         <input type="button" class="btn btn-success" id="btnRegister" value="登陆" disabled onclick='sipRegister();'/>
                         &nbsp;
-                        <input type="button" class="btn btn-danger" id="btnUnRegister" value="注销" disabled onclick='VOIPDemo.disConnectToCCP();'/>
+                        <input type="button" class="btn btn-danger" id="btnUnRegister" value="注销" disabled onclick='UCClient.disConnectToCCP();'/>
                     </td>
                 </tr>
             </table>
@@ -545,7 +545,7 @@
                             </div>
                             &nbsp;&nbsp;
                             <div class="btn-group">
-                                <input type="button" id="btnHangUp" style="margin: 0; vertical-align:middle; height: 100%;" class="btn btn-primary" value="挂机" onclick='VOIPDemo.releaseCall(VOIPDemo.callid, 0);'
+                                <input type="button" id="btnHangUp" style="margin: 0; vertical-align:middle; height: 100%;" class="btn btn-primary" value="挂机" onclick='UCClient.releaseCall(null, 0);'
                                        disabled/>
                             </div>
                         </div>
@@ -554,23 +554,23 @@
                 <tr>
                     <td align='center'>
                         <div id='divCallOptions' class='call-options' style='opacity: 0; margin-top: 0px'>
-                            <input type="button" class="btn" style="" id="btnHoldRetrieve" value="保持" onclick='VOIPDemo.pauseCall(VOIPDemo.callid);'/> &nbsp;
+                            <input type="button" class="btn" style="" id="btnHoldRetrieve" value="保持" onclick='UCClient.pauseCall(UCClient.callid);'/> &nbsp;
                             <input type="button" class="btn" style="" id="btnTransfer" value="转接"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnConsultaion" value="咨询"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnAlternate" value="切换"/> &nbsp;
 							<input type="button" class="btn" style="" id="btnConference" value="会议"/> &nbsp;
-							<input type="button" class="btn" style="" value="0" onclick='VOIPDemo.sendDTMF(activeCall,"0");'/>
-							<input type="button" class="btn" style="" value="1" onclick='VOIPDemo.sendDTMF(activeCall,"1");'/>
-							<input type="button" class="btn" style="" value="2" onclick='VOIPDemo.sendDTMF(activeCall, "2");'/>
-							<input type="button" class="btn" style="" value="3" onclick='VOIPDemo.sendDTMF(activeCall,"3");'/>
-							<input type="button" class="btn" style="" value="4" onclick='VOIPDemo.sendDTMF(activeCall, "4");'/>
-							<input type="button" class="btn" style="" value="5" onclick='VOIPDemo.sendDTMF(activeCall, "5");'/>
-							<input type="button" class="btn" style="" value="6" onclick='VOIPDemo.sendDTMF(activeCall, "6");'/>
-							<input type="button" class="btn" style="" value="7" onclick='VOIPDemo.sendDTMF(activeCall, "7");'/>
-							<input type="button" class="btn" style="" value="8" onclick='VOIPDemo.sendDTMF(activeCall, "8");'/>
-							<input type="button" class="btn" style="" value="9" onclick='VOIPDemo.sendDTMF(activeCall, "9");'/>
-							<input type="button" class="btn" style="" value="*" onclick='VOIPDemo.sendDTMF(activeCall, "*");'/>
-							<input type="button" class="btn" style="" value="#" onclick='VOIPDemo.sendDTMF(activeCall, "#");'/>
+							<input type="button" class="btn" style="" value="0" onclick='UCClient.sendDTMF(activeCall,"0");'/>
+							<input type="button" class="btn" style="" value="1" onclick='UCClient.sendDTMF(activeCall,"1");'/>
+							<input type="button" class="btn" style="" value="2" onclick='UCClient.sendDTMF(activeCall, "2");'/>
+							<input type="button" class="btn" style="" value="3" onclick='UCClient.sendDTMF(activeCall,"3");'/>
+							<input type="button" class="btn" style="" value="4" onclick='UCClient.sendDTMF(activeCall, "4");'/>
+							<input type="button" class="btn" style="" value="5" onclick='UCClient.sendDTMF(activeCall, "5");'/>
+							<input type="button" class="btn" style="" value="6" onclick='UCClient.sendDTMF(activeCall, "6");'/>
+							<input type="button" class="btn" style="" value="7" onclick='UCClient.sendDTMF(activeCall, "7");'/>
+							<input type="button" class="btn" style="" value="8" onclick='UCClient.sendDTMF(activeCall, "8");'/>
+							<input type="button" class="btn" style="" value="9" onclick='UCClient.sendDTMF(activeCall, "9");'/>
+							<input type="button" class="btn" style="" value="*" onclick='UCClient.sendDTMF(activeCall, "*");'/>
+							<input type="button" class="btn" style="" value="#" onclick='UCClient.sendDTMF(activeCall, "#");'/>
                         </div>
                     </td>
                 </tr>

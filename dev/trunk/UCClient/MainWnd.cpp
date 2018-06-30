@@ -77,7 +77,7 @@ void CMainWnd::Notify(TNotifyUI& msg)
 			//SendMessage(WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			memset(&m_nid, 0, sizeof(NOTIFYICONDATA));
 			m_nid.cbSize = sizeof(NOTIFYICONDATA);
-			m_nid.hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_VOIPDEMO));
+			m_nid.hIcon = ::LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_UCCLIENT));
 			m_nid.hWnd = m_hWnd;
 			lstrcpy(m_nid.szTip, _T("Èíµç»°³ÌÐò"));
 			m_nid.uCallbackMessage = MESSAGE_SHOW_TASK;
@@ -254,7 +254,7 @@ bool CMainWnd::listenWS()
 {
 	bool result = true;
 
-	VOIPDemoWSServer wsserver(this->m_wsPort);
+	UCClientWSServer wsserver(this->m_wsPort);
 	LOG4CPLUS_INFO(log, ",websocket start listen port:" << this->m_wsPort);
 	wsserver.InitInstance();
 
@@ -269,7 +269,7 @@ bool CMainWnd::listenWS()
 
 void CMainWnd::Start()
 {
-	this->log = log4cplus::Logger::getInstance("VOIPDemo");
+	this->log = log4cplus::Logger::getInstance("UCClient");
 	WSStart();
 	m_sington = std::thread(&CMainWnd::signton, this);
 

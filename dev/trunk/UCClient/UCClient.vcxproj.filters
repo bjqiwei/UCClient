@@ -57,7 +57,7 @@
     <ClInclude Include="WinSDKBase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="VOIPDemoWebSocket.h">
+    <ClInclude Include="UCClientWebSocket.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,15 +80,15 @@
     <ClCompile Include="WinSDKBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VOIPDemo.cpp">
+    <ClCompile Include="UCClient.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="VOIPDemoWebSocket.cpp">
+    <ClCompile Include="UCClientWebSocket.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="VOIPDemo.rc">
+    <ResourceCompile Include="UCClient.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -96,12 +96,12 @@
     <Image Include="small.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="VOIPDemo.ico">
+    <Image Include="UCClient.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="demo.html" />
-    <None Include="VOIPDemo.js" />
+    <None Include="UCClient.js" />
   </ItemGroup>
 </Project>

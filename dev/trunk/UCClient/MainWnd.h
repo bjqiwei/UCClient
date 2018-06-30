@@ -16,7 +16,7 @@
 #include <WtsApi32.h>
 #include <signal.h>
 #include "codingHelper.h"
-#include "VOIPDemoWebSocket.h"
+#include "UCClientWebSocket.h"
 #include <json/json.h>
 
 

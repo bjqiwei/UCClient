@@ -5,8 +5,8 @@
 ; 注意: AppId 值用于唯一识别该应用程序。
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
-#define AppName "VOIPDemo"
-#define AppVersion "1.0.0.2"
+#define AppName "UCClient"
+#define AppVersion "1.0.0.3"
 AppId={{DF7797D1-6B99-4DB3-B78B-E47429FF3BD5}}
 AppName={#AppName}
 AppVersion={#AppVersion}
@@ -49,7 +49,7 @@ Name: help;Description:"帮助文件";Types:full
 ;Source: "..\build\Win32\bin\Register.bat"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 ;Source: "..\build\Win32\bin\UnRegister.bat"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 ;Source: "..\build\Win32\bin\npWebSocketPlugin.dll"; DestDir: "{app}\x86"; Components:IE8; Flags: regserver replacesameversion restartreplace uninsrestartdelete 32bit 
-Source: "..\build\Win32\bin\VOIPDemo.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit  
+Source: "..\build\Win32\bin\UCClient.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit  
 Source: "..\build\Win32\bin\libx264-148.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\Ecmedia.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\libx278.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
@@ -64,21 +64,17 @@ Source: "..\build\Win32\bin\*.html"; DestDir: "{app}\x86"; Components:main; Flag
 ; 注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
 
 [Icons]Name: "{group}\Demo"; Filename: "{app}\x86\Demo.html"
-Name: "{group}\VOIPDemo"; Filename: "{app}\x86\VOIPDemo.exe"
+Name: "{group}\UCClient"; Filename: "{app}\x86\UCClient.exe"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
-;Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemoCtrl.exe"; WorkingDir: "{app}"
-Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemo.exe"; WorkingDir: "{app}"Name: "{commondesktop}\Demo.html"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
+Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\UCClient.exe"; WorkingDir: "{app}"Name: "{commondesktop}\Demo.html"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: quicklaunchicon
 [Run]
-;Filename:"{app}\x86\VOIPDemoService.exe"; Parameters:"-install"
-;Filename:"{app}\x86\Daemon.exe"; Parameters:"-install" 
-;Filename: "net.exe"; Parameters: "start VOIPDemo" 
-;Filename: "net.exe"; Parameters: "start VOIPDemoDaemon"Filename: "{app}\x86\VOIPDemo.exe"; Description: "{cm:LaunchProgram,VOIPDemo}"; Flags: nowait postinstall skipifsilent
+;Filename: "net.exe"; Parameters: "start UCClient" 
+;Filename: "net.exe"; Parameters: "start UCClientDaemon"Filename: "{app}\x86\UCClient.exe"; Description: "{cm:LaunchProgram,UCClient}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
-;Filename: "net.exe"; Parameters: "stop VOIPDemoDaemon"
-;Filename: "net.exe"; Parameters: "stop VOIPDemo"
-;Filename:"{app}\x86\VOIPDemoService.exe"; Parameters:"-uninstall"; Flags:skipifdoesntexist
+;Filename: "net.exe"; Parameters: "stop UCClient"
+;Filename:"{app}\x86\UCClientService.exe"; Parameters:"-uninstall"; Flags:skipifdoesntexist
 ;Filename:"{app}\x86\Daemon.exe"; Parameters:"-uninstall"; Flags:skipifdoesntexist
 
 [UninstallDelete]
@@ -87,11 +83,11 @@ Type:dirifempty;Name:{pf32}\ytx;
 Type:dirifempty;Name:{group};
 
 [Registry] 
-Root: HKLM32; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#AppName}; ValueData: "{app}\x86\VOIPDemo.exe"; Flags: uninsdeletekeyRoot: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"WebSocketPort"; ValueData: 19998; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: expandsz; ValueName:"LogPath"; ValueData:{code:getLogDir}; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"SpeakerVolume"; ValueData:100; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"MicroVolume"; ValueData:100; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"LogLevel"; ValueData:20000; Flags: createvalueifdoesntexist
+Root: HKLM32; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#AppName}; ValueData: "{app}\x86\UCClient.exe"; Flags: uninsdeletekeyRoot: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\UCClient"; ValueType: dword; ValueName:"WebSocketPort"; ValueData: 19998; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\UCClient"; ValueType: expandsz; ValueName:"LogPath"; ValueData:{code:getLogDir}; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\UCClient"; ValueType: dword; ValueName:"SpeakerVolume"; ValueData:100; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\UCClient"; ValueType: dword; ValueName:"MicroVolume"; ValueData:100; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\UCClient"; ValueType: dword; ValueName:"LogLevel"; ValueData:20000; Flags: createvalueifdoesntexist
 
 [code]var selectLogDirPage:TwizardPage;
 var selectDirBtn:TButton;
@@ -121,7 +117,7 @@ begin
   logPath:=TEdit.Create(selectLogDirPage);
   logPath.Parent:=selectLogDirPage.Surface;
   logPath.Width:=logPath.Width*3;
-  logPath.Text:=ExpandConstant('{userappdata}')+'\ytx\VOIPDemo';
+  logPath.Text:=ExpandConstant('{userappdata}')+'\ytx\UCClient';
   logPath.Top:=logLabel.Top+logLabel.Height+12;
 
   selectDirBtn:=TButton.Create(nil);
@@ -146,8 +142,8 @@ begin
 
     if MsgBox('您是否要删除配置信息？', mbConfirmation, MB_YESNO) = IDYES then
     begin
-      RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'SOFTWARE\ytx\VOIPDemo');
-      RegDeleteKeyIncludingSubkeys(HKEY_USERS, '.DEFAULT\SOFTWARE\ytx\VOIPDemo');
+      RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'SOFTWARE\ytx\UCClient');
+      RegDeleteKeyIncludingSubkeys(HKEY_USERS, '.DEFAULT\SOFTWARE\ytx\UCClient');
     end
 
 end;
