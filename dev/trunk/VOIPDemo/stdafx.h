@@ -32,7 +32,7 @@
 
 #include <list>
 #include <mutex>
-#include "WebCallWebSocket.h"
+#include "VOIPDemoWebSocket.h"
 
 #include <objbase.h>
 #include "..\DuiLib\UIlib.h"	
@@ -59,5 +59,5 @@ extern std::string utf8ModuleName;
 void InitLog4cplus();
 void UnInitLog4cplus();
 
-extern std::list<WebCallWSclient *> g_WSClientSet;
+extern std::list<VOIPDemoWSclient *> g_WSClientSet;
 extern std::recursive_mutex g_WSClientMtx;

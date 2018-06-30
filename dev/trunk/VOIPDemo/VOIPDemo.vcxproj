@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3CFF24EB-C6E7-4EEC-AB64-6C634A129EE0}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>WebCall</RootNamespace>
+    <RootNamespace>VOIPDemo</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -190,7 +190,7 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
     <ClInclude Include="stringHelper.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="UIMessage.h" />
-    <ClInclude Include="WebCallWebSocket.h" />
+    <ClInclude Include="VOIPDemoWebSocket.h" />
     <ClInclude Include="websocket.h" />
   </ItemGroup>
   <ItemGroup>
@@ -204,16 +204,16 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="WebCall.cpp" />
-    <ClCompile Include="WebCallWebSocket.cpp" />
+    <ClCompile Include="VOIPDemo.cpp" />
+    <ClCompile Include="VOIPDemoWebSocket.cpp" />
     <ClCompile Include="websocket.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="WebCall.rc" />
+    <ResourceCompile Include="VOIPDemo.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="small.ico" />
-    <Image Include="WebCall.ico" />
+    <Image Include="VOIPDemo.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\jsoncpp-src-0.5.0\makefiles\vs2015\lib_json.vcxproj">
@@ -231,7 +231,7 @@ xcopy /y $(SolutionDir)install\*.zip $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="demo.html" />
-    <None Include="WebCall.js" />
+    <None Include="VOIPDemo.js" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -125,6 +125,8 @@ public:
 	int setUserData(int type, const char *data);
 	int consultTransferCall(const char *callid, const char *consultCallid, const char *destination);
 	int transferMeeting(int type, const char *callid, const char *consultedCallid, const char *consultedUser);
+	int setSipTransportType(int transType);
+	void setSrtpEnabled(int TransportType, int cryptoType);
 
 };
 

@@ -407,3 +407,18 @@ int CWinSDKBase::transferMeeting(int type, const char *callid, const char *consu
 	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
 	return ret;
 }
+
+int CWinSDKBase::setSipTransportType(int transType)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ "transType:" << transType);
+	int ret = ::setSipTransportType(transType);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+	return ret;
+}
+
+void CWinSDKBase::setSrtpEnabled(int TransportType, int cryptoType)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ "TransportType:" << TransportType << ", cryptoType:" << cryptoType);
+	::setSrtpEnabled(TransportType, cryptoType);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:");
+}

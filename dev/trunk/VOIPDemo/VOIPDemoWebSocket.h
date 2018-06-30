@@ -5,11 +5,11 @@
 #include "WinSDKBase.h"
 #include <log4cplus/logger.h>
 
-class WebCallWSclient :public WebSocket::WebSocketClient, public CWinSDKBase
+class VOIPDemoWSclient :public WebSocket::WebSocketClient, public CWinSDKBase
 {
 public:
-	explicit WebCallWSclient(struct lws * wsi);
-	~WebCallWSclient();
+	explicit VOIPDemoWSclient(struct lws * wsi);
+	~VOIPDemoWSclient();
 
 private:
 	log4cplus::Logger log;
@@ -58,10 +58,10 @@ private:
 	virtual void onSipLogOut(int reason) override; //* reason：200成功，其他报错
 };
 
-class WebCallWSServer :public WebSocket::WebSocketServer
+class VOIPDemoWSServer :public WebSocket::WebSocketServer
 {
 public:
-	explicit WebCallWSServer(int port);
+	explicit VOIPDemoWSServer(int port);
 	virtual WebSocket::WebSocketClient * OnAccept(struct lws *wsi) override;
 };
 

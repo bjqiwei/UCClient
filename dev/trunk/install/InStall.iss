@@ -5,9 +5,9 @@
 ; 注意: AppId 值用于唯一识别该应用程序。
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
-#define AppName "WebCall"
-#define AppVersion "4.0.1.16"
-AppId={{3E59331C-D6E2-4475-8678-467C583ADE01}}
+#define AppName "VOIPDemo"
+#define AppVersion "1.0.0.0"
+AppId={{DF7797D1-6B99-4DB3-B78B-E47429FF3BD5}}
 AppName={#AppName}
 AppVersion={#AppVersion}
 AppCopyright=Copyright (C)ytx Inc.
@@ -29,7 +29,7 @@ PrivilegesRequired=admin
 AlwaysRestart=no
 UninstallRestartComputer=no
 MinVersion=5.01
-SetupMutex=Global\04B48F80-4AE4-4C90-AE5C-63BDB81110CE
+SetupMutex=Global\B2D8B39A-94D2-434B-AA18-3524C219FCFE
 
 ArchitecturesInstallIn64BitMode=x64 ia64
 
@@ -42,44 +42,42 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Components]
 Name: main; Description:"主程序(必选)";Types:full compact custom;Flags: fixed
-Name: IE8;Description:"支持IE8浏览器";Types:full
+;Name: IE8;Description:"支持IE8浏览器";Types:full
 Name: help;Description:"帮助文件";Types:full
 
 [Files]
-Source: "..\build\Win32\bin\Register.bat"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-Source: "..\build\Win32\bin\UnRegister.bat"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-Source: "..\build\Win32\bin\npBrowserPlugin.dll"; DestDir: "{app}\x86"; Components:main; Flags: regserver replacesameversion restartreplace uninsrestartdelete 32bit
-Source: "..\build\Win32\bin\npWebSocketPlugin.dll"; DestDir: "{app}\x86"; Components:IE8; Flags: regserver replacesameversion restartreplace uninsrestartdelete 32bit 
-;Source: "..\build\Win32\bin\WebCallService.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\Daemon.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\WebCallCtrl.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit  
-Source: "..\build\Win32\bin\WebCall.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit  ;Source: "..\build\Win32\bin\libx264-148.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit;Source: "..\build\Win32\bin\Ecmedia.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+;Source: "..\build\Win32\bin\Register.bat"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+;Source: "..\build\Win32\bin\UnRegister.bat"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+;Source: "..\build\Win32\bin\npWebSocketPlugin.dll"; DestDir: "{app}\x86"; Components:IE8; Flags: regserver replacesameversion restartreplace uninsrestartdelete 32bit 
+Source: "..\build\Win32\bin\VOIPDemo.exe"; DestDir: "{app}\x86"; Components:main; Flags: replacesameversion restartreplace uninsrestartdelete 32bit  
+Source: "..\build\Win32\bin\libx264-148.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+Source: "..\build\Win32\bin\Ecmedia.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\libx278.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\libx279.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-Source: "..\build\Win32\bin\ring.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit 
+;Source: "..\build\Win32\bin\ring.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit 
 ;Source: "..\build\Win32\bin\ringback.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\DuiLib.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-Source: ".\default.zip"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
+Source: "..\build\Win32\bin\default.zip"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 ; 注意: 不要在任何共享系统文件上使用“Flags: ignoreversion”
 
 [Icons]
-;Name: "{group}\WebCall"; Filename: "{app}\x86\WebCallCtrl.exe"
-Name: "{group}\WebCall"; Filename: "{app}\x86\WebCall.exe"
+;Name: "{group}\VOIPDemo"; Filename: "{app}\x86\VOIPDemoCtrl.exe"
+Name: "{group}\VOIPDemo"; Filename: "{app}\x86\VOIPDemo.exe"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
-;Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\WebCallCtrl.exe"; WorkingDir: "{app}"
-Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\WebCall.exe"; WorkingDir: "{app}"
+;Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemoCtrl.exe"; WorkingDir: "{app}"
+Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\VOIPDemo.exe"; WorkingDir: "{app}"
 ;Name: "{commondesktop}\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: desktopicon
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: quicklaunchicon
 [Run]
-;Filename:"{app}\x86\WebCallService.exe"; Parameters:"-install"
+;Filename:"{app}\x86\VOIPDemoService.exe"; Parameters:"-install"
 ;Filename:"{app}\x86\Daemon.exe"; Parameters:"-install" 
-;Filename: "net.exe"; Parameters: "start WebCall" 
-;Filename: "net.exe"; Parameters: "start WebCallDaemon"Filename: "{app}\x86\WebCall.exe"; Description: "{cm:LaunchProgram,WebCall}"; Flags: nowait postinstall skipifsilent
+;Filename: "net.exe"; Parameters: "start VOIPDemo" 
+;Filename: "net.exe"; Parameters: "start VOIPDemoDaemon"Filename: "{app}\x86\VOIPDemo.exe"; Description: "{cm:LaunchProgram,VOIPDemo}"; Flags: nowait postinstall skipifsilent
 
 [UninstallRun]
-;Filename: "net.exe"; Parameters: "stop WebCallDaemon"
-;Filename: "net.exe"; Parameters: "stop WebCall"
-;Filename:"{app}\x86\WebCallService.exe"; Parameters:"-uninstall"; Flags:skipifdoesntexist
+;Filename: "net.exe"; Parameters: "stop VOIPDemoDaemon"
+;Filename: "net.exe"; Parameters: "stop VOIPDemo"
+;Filename:"{app}\x86\VOIPDemoService.exe"; Parameters:"-uninstall"; Flags:skipifdoesntexist
 ;Filename:"{app}\x86\Daemon.exe"; Parameters:"-uninstall"; Flags:skipifdoesntexist
 
 [UninstallDelete]
@@ -88,11 +86,11 @@ Type:dirifempty;Name:{pf32}\ytx;
 Type:dirifempty;Name:{group};
 
 [Registry] 
-Root: HKLM32; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#AppName}; ValueData: "{app}\x86\WebCall.exe"; Flags: uninsdeletekeyRoot: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\WebCall"; ValueType: dword; ValueName:"WebSocketPort"; ValueData: 19996; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\WebCall"; ValueType: expandsz; ValueName:"LogPath"; ValueData:{code:getLogDir}; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\WebCall"; ValueType: dword; ValueName:"SpeakerVolume"; ValueData:100; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\WebCall"; ValueType: dword; ValueName:"MicroVolume"; ValueData:100; Flags: createvalueifdoesntexist
-Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\WebCall"; ValueType: dword; ValueName:"LogLevel"; ValueData:20000; Flags: createvalueifdoesntexist
+Root: HKLM32; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#AppName}; ValueData: "{app}\x86\VOIPDemo.exe"; Flags: uninsdeletekeyRoot: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"WebSocketPort"; ValueData: 19996; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: expandsz; ValueName:"LogPath"; ValueData:{code:getLogDir}; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"SpeakerVolume"; ValueData:100; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"MicroVolume"; ValueData:100; Flags: createvalueifdoesntexist
+Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"LogLevel"; ValueData:20000; Flags: createvalueifdoesntexist
 
 [code]var selectLogDirPage:TwizardPage;
 var selectDirBtn:TButton;
@@ -122,7 +120,7 @@ begin
   logPath:=TEdit.Create(selectLogDirPage);
   logPath.Parent:=selectLogDirPage.Surface;
   logPath.Width:=logPath.Width*3;
-  logPath.Text:=ExpandConstant('{userappdata}')+'\ytx\WebCall';
+  logPath.Text:=ExpandConstant('{userappdata}')+'\ytx\VOIPDemo';
   logPath.Top:=logLabel.Top+logLabel.Height+12;
 
   selectDirBtn:=TButton.Create(nil);
@@ -147,8 +145,8 @@ begin
 
     if MsgBox('您是否要删除配置信息？', mbConfirmation, MB_YESNO) = IDYES then
     begin
-      RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'SOFTWARE\ytx\WebCall');
-      RegDeleteKeyIncludingSubkeys(HKEY_USERS, '.DEFAULT\SOFTWARE\ytx\WebCall');
+      RegDeleteKeyIncludingSubkeys(HKEY_CURRENT_USER, 'SOFTWARE\ytx\VOIPDemo');
+      RegDeleteKeyIncludingSubkeys(HKEY_USERS, '.DEFAULT\SOFTWARE\ytx\VOIPDemo');
     end
 
 end;

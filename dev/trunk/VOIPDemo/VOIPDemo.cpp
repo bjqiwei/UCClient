@@ -1,4 +1,4 @@
-// WebCall.cpp : Defines the entry point for the application.
+// VOIPDemo.cpp : Defines the entry point for the application.
 //
 
 #include "stdafx.h"
@@ -148,7 +148,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE /*hPrevInstance*/, LPSTR /*l
 
 	CMainWnd *pMainWnd = new CMainWnd();
 	if (pMainWnd == NULL) { return 0; }
-	pMainWnd->SetIcon(IDI_WEBCALL);
+	pMainWnd->SetIcon(IDI_VOIPDEMO);
 	pMainWnd->Create(NULL, _T("Èíµç»°³ÌÐò"), UI_WNDSTYLE_DIALOG, 0, 0, 0, 0, 0, NULL);
 	pMainWnd->CenterWindow();
 	pMainWnd->ShowWindow(true);

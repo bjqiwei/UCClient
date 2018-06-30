@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "WebCallWebSocket.h"
+#include "VOIPDemoWebSocket.h"
 #include <log4cplus/loggingmacros.h>
 //#include "CCPClient.h"
 //#include "CCPClient_Internal.h"
@@ -8,47 +8,47 @@
 #include "codingHelper.h"
 
 
-std::list<WebCallWSclient *> g_WSClientSet;
+std::list<VOIPDemoWSclient *> g_WSClientSet;
 std::recursive_mutex g_WSClientMtx;
 
-WebCallWSclient::WebCallWSclient(struct lws * wsi)
+VOIPDemoWSclient::VOIPDemoWSclient(struct lws * wsi)
 	:WebSocketClient(wsi)
 {
-		this->log = log4cplus::Logger::getInstance("WebCallWSclient");
+		this->log = log4cplus::Logger::getInstance("VOIPDemoWSclient");
 		//LOG4CPLUS_TRACE(log, m_SessionId << "construction");
 };
 
-WebCallWSclient::~WebCallWSclient()
+VOIPDemoWSclient::~VOIPDemoWSclient()
 {
 	std::unique_lock<std::recursive_mutex> lck(g_WSClientMtx);
 	g_WSClientSet.remove(this);
 	//LOG4CPLUS_TRACE(log, m_SessionId << "deconstruct");
 }
 
-void WebCallWSclient::OnOpen()
+void VOIPDemoWSclient::OnOpen()
 {
 	//LOG4CPLUS_DEBUG(log, m_SessionId << "OnOpen");
 	std::unique_lock<std::recursive_mutex> lck(g_WSClientMtx);
 	g_WSClientSet.push_back(this);
 }
 
-void WebCallWSclient::OnClose(const std::string & errorCode)
+void VOIPDemoWSclient::OnClose(const std::string & errorCode)
 {
 	//LOG4CPLUS_DEBUG(log, m_SessionId << "OnClose");
 	delete this;
 }
 
-void WebCallWSclient::OnError(const std::string & errorCode)
+void VOIPDemoWSclient::OnError(const std::string & errorCode)
 {
 	//LOG4CPLUS_DEBUG(log, m_SessionId << "OnError");
 	//delete this;
 }
 
-void WebCallWSclient::OnSend()
+void VOIPDemoWSclient::OnSend()
 {
 }
 
-void WebCallWSclient::OnMessage(const std::string & message)
+void VOIPDemoWSclient::OnMessage(const std::string & message)
 {
 	Json::Value jsonEvent;
 	Json::Reader jsonReader;
@@ -131,7 +131,7 @@ void WebCallWSclient::OnMessage(const std::string & message)
 			}
 
 			setTraceFlag(enable, fileName, logLevel);
-			SetRegKey("LogLevel", logLevel);
+			//SetRegKey("LogLevel", logLevel);
 
 			cmdresult["param"]["return"] = 0;
 
@@ -332,6 +332,33 @@ void WebCallWSclient::OnMessage(const std::string & message)
 			//cmdresult["param"]["return"] = setCodecEnabled(type, enable == 0 ? false : true);
 			cmdresult["param"]["return"] = setUserData(type, data.c_str());
 		}
+		else if (cmd == "setSipTransportType")
+		{
+			uint32_t type = 0;
+
+			if (jsonEvent["param"]["transType"].isInt()) {
+				type = jsonEvent["param"]["transType"].asInt();
+			}
+
+			//cmdresult["param"]["return"] = setCodecEnabled(type, enable == 0 ? false : true);
+			cmdresult["param"]["return"] = setSipTransportType(type); 
+		}
+		else if (cmd == "setSrtpEnabled")
+		{
+			uint32_t type = 0;
+			uint32_t cryptoType = 0;
+
+			if (jsonEvent["param"]["TransportType"].isInt()) {
+				type = jsonEvent["param"]["TransportType"].asInt();
+			}
+			
+			if (jsonEvent["param"]["cryptoType"].isInt())
+				cryptoType = jsonEvent["param"]["cryptoType"].asInt();
+
+			//cmdresult["param"]["return"] = setCodecEnabled(type, enable == 0 ? false : true);
+			setSrtpEnabled(type, cryptoType);
+			//cmdresult["param"]["return"];
+		}
 		else if (cmd == "setCodecEnabled") {
 
 			uint32_t type = 0;
@@ -510,12 +537,12 @@ void WebCallWSclient::OnMessage(const std::string & message)
 
 }
 
-HWND WebCallWSclient::gethWnd() const
+HWND VOIPDemoWSclient::gethWnd() const
 {
 	return nullptr;
 }
 
-void WebCallWSclient::onConnect(unsigned int tcpMsgIdOut, int reason, const char *jsonString, int autoReconnect)
+void VOIPDemoWSclient::onConnect(unsigned int tcpMsgIdOut, int reason, const char *jsonString, int autoReconnect)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ ", start");
 
@@ -540,7 +567,7 @@ void WebCallWSclient::onConnect(unsigned int tcpMsgIdOut, int reason, const char
 	LOG4CPLUS_TRACE(log, __FUNCTION__ ", end");
 }
 
-void WebCallWSclient::onIncomingCallReceived(int callType, int confType, const char *callid, const char *caller)
+void VOIPDemoWSclient::onIncomingCallReceived(int callType, int confType, const char *callid, const char *caller)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -565,7 +592,7 @@ void WebCallWSclient::onIncomingCallReceived(int callType, int confType, const c
 
 }
 
-void WebCallWSclient::onCallProceeding(const char*callid)
+void VOIPDemoWSclient::onCallProceeding(const char*callid)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -586,7 +613,7 @@ void WebCallWSclient::onCallProceeding(const char*callid)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onCallAlerting(const char *callid)
+void VOIPDemoWSclient::onCallAlerting(const char *callid)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -607,7 +634,7 @@ void WebCallWSclient::onCallAlerting(const char *callid)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onCallAnswered(const char *callid)
+void VOIPDemoWSclient::onCallAnswered(const char *callid)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -628,7 +655,7 @@ void WebCallWSclient::onCallAnswered(const char *callid)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onCallReleased(const char * callid, int reason, int state, int CallEvent)
+void VOIPDemoWSclient::onCallReleased(const char * callid, int reason, int state, int CallEvent)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -653,7 +680,7 @@ void WebCallWSclient::onCallReleased(const char * callid, int reason, int state,
 }
 
 
-void WebCallWSclient::onCallPaused(const char* callid, int type, int reason)
+void VOIPDemoWSclient::onCallPaused(const char* callid, int type, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -676,7 +703,7 @@ void WebCallWSclient::onCallPaused(const char* callid, int type, int reason)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onCallResumed(const char * callid, int type, int reason)
+void VOIPDemoWSclient::onCallResumed(const char * callid, int type, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -699,7 +726,7 @@ void WebCallWSclient::onCallResumed(const char * callid, int type, int reason)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onSwitchCallMediaTypeRequest(const char * callid, int video, int reason)
+void VOIPDemoWSclient::onSwitchCallMediaTypeRequest(const char * callid, int video, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -722,7 +749,7 @@ void WebCallWSclient::onSwitchCallMediaTypeRequest(const char * callid, int vide
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onSwitchCallMediaTypeResponse(const char * callid, int video, int reason)
+void VOIPDemoWSclient::onSwitchCallMediaTypeResponse(const char * callid, int video, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -745,7 +772,7 @@ void WebCallWSclient::onSwitchCallMediaTypeResponse(const char * callid, int vid
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onRemoteVideoRatio(const char * CallidOrConferenceId, int width, int height, int type, const char * member, const char * ip, int port)
+void VOIPDemoWSclient::onRemoteVideoRatio(const char * CallidOrConferenceId, int width, int height, int type, const char * member, const char * ip, int port)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -772,7 +799,7 @@ void WebCallWSclient::onRemoteVideoRatio(const char * CallidOrConferenceId, int 
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onAudioData(const char * callid, const void * inData, int inLen, void * outData, int * outLen, bool send)
+void VOIPDemoWSclient::onAudioData(const char * callid, const void * inData, int inLen, void * outData, int * outLen, bool send)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -795,7 +822,7 @@ void WebCallWSclient::onAudioData(const char * callid, const void * inData, int 
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onVideoData(const char * callid, const void * inData, int inLen, void * outData, int * outLen, bool send)
+void VOIPDemoWSclient::onVideoData(const char * callid, const void * inData, int inLen, void * outData, int * outLen, bool send)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -818,7 +845,7 @@ void WebCallWSclient::onVideoData(const char * callid, const void * inData, int 
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onAudioCaptureData(const char * callid, unsigned char * data, int length, int samples, int sampleRate, int numChannels)
+void VOIPDemoWSclient::onAudioCaptureData(const char * callid, unsigned char * data, int length, int samples, int sampleRate, int numChannels)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -843,7 +870,7 @@ void WebCallWSclient::onAudioCaptureData(const char * callid, unsigned char * da
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onVideoCaptureData(const char * callid, unsigned char * data, int length, int width, int height, int y_stride, int uv_stride)
+void VOIPDemoWSclient::onVideoCaptureData(const char * callid, unsigned char * data, int length, int width, int height, int y_stride, int uv_stride)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -869,7 +896,7 @@ void WebCallWSclient::onVideoCaptureData(const char * callid, unsigned char * da
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onMediaDestinationChanged(const char * callid, int mediaType, const char * ip, int port, int type)
+void VOIPDemoWSclient::onMediaDestinationChanged(const char * callid, int mediaType, const char * ip, int port, int type)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -894,7 +921,7 @@ void WebCallWSclient::onMediaDestinationChanged(const char * callid, int mediaTy
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onNoCamera(const char * callid)
+void VOIPDemoWSclient::onNoCamera(const char * callid)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -915,7 +942,7 @@ void WebCallWSclient::onNoCamera(const char * callid)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onNoMicRecording(const char * callid, int reason)
+void VOIPDemoWSclient::onNoMicRecording(const char * callid, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -937,7 +964,7 @@ void WebCallWSclient::onNoMicRecording(const char * callid, int reason)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onCallTransfered(const char * callid, const char * destionation, int reason)
+void VOIPDemoWSclient::onCallTransfered(const char * callid, const char * destionation, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -960,7 +987,7 @@ void WebCallWSclient::onCallTransfered(const char * callid, const char * destion
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onMeetingTransfered(const char * callid, int reason)
+void VOIPDemoWSclient::onMeetingTransfered(const char * callid, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -982,7 +1009,7 @@ void WebCallWSclient::onMeetingTransfered(const char * callid, int reason)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onAudioEnergyFeedback(int averageEnergy)
+void VOIPDemoWSclient::onAudioEnergyFeedback(int averageEnergy)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1003,7 +1030,7 @@ void WebCallWSclient::onAudioEnergyFeedback(int averageEnergy)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onSipConnect(int reason)
+void VOIPDemoWSclient::onSipConnect(int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1024,7 +1051,7 @@ void WebCallWSclient::onSipConnect(int reason)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onSipLogOut(int reason)
+void VOIPDemoWSclient::onSipLogOut(int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1046,7 +1073,7 @@ void WebCallWSclient::onSipLogOut(int reason)
 }
 
 
-void WebCallWSclient::onDtmfReceived(const char *callid, char dtmf)
+void VOIPDemoWSclient::onDtmfReceived(const char *callid, char dtmf)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1072,7 +1099,7 @@ void WebCallWSclient::onDtmfReceived(const char *callid, char dtmf)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onLogInfo(const char* loginfo)
+void VOIPDemoWSclient::onLogInfo(const char* loginfo)
 {
 	//LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1093,7 +1120,7 @@ void WebCallWSclient::onLogInfo(const char* loginfo)
 	//LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onLogOut(unsigned int tcpMsgIdOut, int reason)
+void VOIPDemoWSclient::onLogOut(unsigned int tcpMsgIdOut, int reason)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1114,7 +1141,7 @@ void WebCallWSclient::onLogOut(unsigned int tcpMsgIdOut, int reason)
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " end.");
 }
 
-void WebCallWSclient::onWillCloseTcp(void)
+void VOIPDemoWSclient::onWillCloseTcp(void)
 {
 	LOG4CPLUS_TRACE(log, __FUNCTION__ << " start.");
 	Json::Value out;
@@ -1133,12 +1160,12 @@ void WebCallWSclient::onWillCloseTcp(void)
 }
 
 
-WebCallWSServer::WebCallWSServer(int port)
+VOIPDemoWSServer::VOIPDemoWSServer(int port)
 	:WebSocketServer(port)
 {
 }
-WebSocket::WebSocketClient * WebCallWSServer::OnAccept(struct lws *wsi)
+WebSocket::WebSocketClient * VOIPDemoWSServer::OnAccept(struct lws *wsi)
 {
-	WebSocket::WebSocketClient * wsc = new WebCallWSclient(wsi);
+	WebSocket::WebSocketClient * wsc = new VOIPDemoWSclient(wsi);
 	return wsc;
 }

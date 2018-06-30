@@ -9,7 +9,7 @@
 
 CSettingsWnd::CSettingsWnd()
 {
-	this->log = log4cplus::Logger::getInstance("WebCall");
+	this->log = log4cplus::Logger::getInstance("VOIPDemo");
 }
 
 CSettingsWnd::~CSettingsWnd()
