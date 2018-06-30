@@ -6,7 +6,7 @@
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
 #define AppName "VOIPDemo"
-#define AppVersion "1.0.0.0"
+#define AppVersion "1.0.0.2"
 AppId={{DF7797D1-6B99-4DB3-B78B-E47429FF3BD5}}
 AppName={#AppName}
 AppVersion={#AppVersion}
@@ -87,7 +87,7 @@ Type:dirifempty;Name:{pf32}\ytx;
 Type:dirifempty;Name:{group};
 
 [Registry] 
-Root: HKLM32; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#AppName}; ValueData: "{app}\x86\VOIPDemo.exe"; Flags: uninsdeletekeyRoot: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"WebSocketPort"; ValueData: 19996; Flags: createvalueifdoesntexist
+Root: HKLM32; Subkey: "SOFTWARE\Microsoft\Windows\CurrentVersion\Run"; ValueType: string; ValueName: {#AppName}; ValueData: "{app}\x86\VOIPDemo.exe"; Flags: uninsdeletekeyRoot: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"WebSocketPort"; ValueData: 19998; Flags: createvalueifdoesntexist
 Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: expandsz; ValueName:"LogPath"; ValueData:{code:getLogDir}; Flags: createvalueifdoesntexist
 Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"SpeakerVolume"; ValueData:100; Flags: createvalueifdoesntexist
 Root: HKU32; Subkey:".DEFAULT\SOFTWARE\ytx\VOIPDemo"; ValueType: dword; ValueName:"MicroVolume"; ValueData:100; Flags: createvalueifdoesntexist

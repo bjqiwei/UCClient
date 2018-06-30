@@ -163,24 +163,22 @@ CWinSDKBase::CWinSDKBase()
 	log = log4cplus::Logger::getInstance("CPjSipSDKBase");
 	LOG4CPLUS_INFO(log, "SDK Version:" << getVersion());
 	LOG4CPLUS_INFO(log, "SDK:" << utf8ModuleFilename);
-
-	initialize();
-
 	LOG4CPLUS_TRACE(log, "construction");
+	g_Instance = this;
 }
 
 CWinSDKBase::~CWinSDKBase()
 {
 	//pjsua_acc_set_user_data(m_acc->getId(), NULL);
-	unInitialize();
 	LOG4CPLUS_TRACE(log, "destruction");
+	g_Instance = nullptr;
 }
 
 int CWinSDKBase::initialize()
 {
 	if (g_pjsipReferce.fetch_add(1) == 0) {
 
-		LOG4CPLUS_DEBUG(log, __FUNCTION__);
+		//LOG4CPLUS_DEBUG(log, __FUNCTION__);
 		CB.onLogInfo = sonLogInfo;
 		CB.onConnect = sonConnect;
 		CB.onLogOut = sonLogOut;
@@ -209,14 +207,13 @@ int CWinSDKBase::initialize()
 		CB.onSipConnect = sonSipConnect;
 		CB.onSipLogOut = sonSipLogOut;
 
-		LOG4CPLUS_DEBUG(log, "SetCallBackFuction");
+		//LOG4CPLUS_DEBUG(log, "SetCallBackFuction");
 
-		g_Instance = this;
 		int ret = ::servicecoreInitialize(&CB);
-		setCodecEnabled(codec_VP8, 0);
-		setCodecEnabled(codec_H264, 0);
-		setCodecEnabled(codec_H264_HIGH, 0);
-		LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+		::setCodecEnabled(codec_VP8, 0);
+		::setCodecEnabled(codec_H264, 0);
+		::setCodecEnabled(codec_H264_HIGH, 0);
+		//LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
 		return ret;
 
 	}
@@ -325,10 +322,10 @@ int CWinSDKBase::disConnectToCCP()
 int CWinSDKBase::unInitialize()
 {
 	if (g_pjsipReferce.fetch_sub(1) == 1) {
-		LOG4CPLUS_DEBUG(log, __FUNCTION__);
-		g_Instance = nullptr;
+		//LOG4CPLUS_DEBUG(log, __FUNCTION__);
+		//g_Instance = nullptr;
 		int ret = ::unInitialize();
-		LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+		//LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
 		return ret;
 	}
 	return 0;

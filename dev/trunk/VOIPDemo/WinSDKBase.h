@@ -102,8 +102,8 @@ public:
 	~CWinSDKBase();
 
 	static std::string getVersion();
-	int initialize();
-	int unInitialize();
+	static int initialize();
+	static int unInitialize();
 	void setTraceFlag(bool enable, const char *logFileName, int level);
 
 	void setRing(const std::string & ringfile);

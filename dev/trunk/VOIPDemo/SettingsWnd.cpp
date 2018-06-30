@@ -61,6 +61,17 @@ void CSettingsWnd::InitWindow()
 	m_pSpeakerPlay = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("speakerPlay")));
 	m_pSpeakerPause = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("speakerPause")));
 
+	m_pMicrophoneVolume->SetVisible(false);
+	m_pMicrophoneProgress->SetVisible(false);
+	//m_pMicrophoneTest->SetVisible(false);
+	m_pMicrophonePlay->SetVisible(false);
+	m_pMicrophonePause->SetVisible(false);
+
+
+	m_pSpeakerPlay->SetVisible(false);
+	m_pSpeakerProgress->SetVisible(false);
+
+
 	this->m_pSpeakerVolume->SetMinValue(0);
 	this->m_pSpeakerVolume->SetMaxValue(255);
 
@@ -71,7 +82,7 @@ void CSettingsWnd::InitWindow()
 	int count = getMicroPhoneInfo(&micro);
 	for (int i = 0; i < count; i++) {
 		CListLabelElementUI* pListLabelElementUI = new CListLabelElementUI();
-		pListLabelElementUI->SetText(micro[i].name);
+		pListLabelElementUI->SetText(UTF_82ASCII(micro[i].name).c_str());
 		m_pMicrophoneCombo->Add(pListLabelElementUI);
 	}
 	
@@ -80,7 +91,7 @@ void CSettingsWnd::InitWindow()
 	for (int i = 0; i < count; i++)
 	{
 		CListLabelElementUI* pListLabelElementUI_Speaker = new CListLabelElementUI();
-		pListLabelElementUI_Speaker->SetText(speaker[i].name);
+		pListLabelElementUI_Speaker->SetText(UTF_82ASCII(speaker[i].name).c_str());
 		m_pSpeakerCombo->Add(pListLabelElementUI_Speaker);
 	}
 
@@ -175,7 +186,7 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 void CSettingsWnd::OnPrepare(TNotifyUI& msg)
 {
 
-	this->m_wsPort = ReadRegKeyDWORD("WebSocketPort", 19996);
+	this->m_wsPort = ReadRegKeyDWORD("WebSocketPort", 19998);
 	this->m_SpeakerName = ReadRegKeyString("Speaker");
 	this->m_MicroName = ReadRegKeyString("MicroPhone");
 	this->m_SpeakerVolume = ReadRegKeyDWORD("SpeakerVolume", 128);

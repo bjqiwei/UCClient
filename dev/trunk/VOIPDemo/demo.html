@@ -22,7 +22,7 @@
             oReadyStateTimer = setInterval(function () {
                         if (document.readyState === "complete") {
                             clearInterval(oReadyStateTimer);
-                            VOIPDemo.Connect("ws://127.0.0.1:19996");
+                            VOIPDemo.Connect("ws://127.0.0.1:19998");
                         }
                     },
                     500);
@@ -191,7 +191,8 @@
 				return;
 			}
 			
-			if(e.cause === VOIPDemo.Cause.Alternate){
+            if (e.cause === VOIPDemo.Cause.Alternate) {
+                otherCall = e.callid;
 				return;
 			}
 			
@@ -324,7 +325,8 @@
 
 			activeCall = e.callid;
 			
-			if(e.cause === VOIPDemo.Cause.Alternate){
+			if (e.cause === VOIPDemo.Cause.Alternate) {
+			    activeCall = e.callid;
 				return;
 			}
 			

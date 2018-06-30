@@ -7,13 +7,15 @@ std::thread CMainWnd::m_sington;
 HANDLE CMainWnd::m_SingletonEvent = nullptr;
 CMainWnd::CMainWnd()
 {
-	this->m_wsPort = ReadRegKeyDWORD("WebSocketPort", 19996);
+	this->m_wsPort = ReadRegKeyDWORD("WebSocketPort", 19998);
 
 	log = log4cplus::Logger::getInstance("CPjSipSDKBase");
+	CWinSDKBase::initialize();
 }
 
 CMainWnd::~CMainWnd()
 {
+	CWinSDKBase::unInitialize();
 }
 
 CControlUI* CMainWnd::CreateControl(LPCTSTR pstrClass)
