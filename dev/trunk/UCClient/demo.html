@@ -269,7 +269,7 @@
 				
 				btnConference.disabled = false;
 				btnConference.onclick = function(){
-				    UCClient.transferMeeting(1, activeCall, otherCall, "");
+				    UCClient.transferMeeting(1, otherCall, activeCall, "");
 				}
 				
 				return;
@@ -303,7 +303,7 @@
 			btnConference.disabled = false;
 			btnConference.onclick = function () {
 			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-			    UCClient.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
+			    UCClient.transferMeeting(0, otherCall, activeCall, txtPhoneNumber.value);
 			}
 			
 			document.getElementById("ringbacktone").pause();
@@ -358,7 +358,7 @@
 			btnConference.disabled = false;
 			btnConference.onclick = function () {
 			    UCClient.setUserData(2, txtCustomerID.value + '_' + txtAgentID.value);
-				UCClient.transferMeeting(0, activeCall, otherCall, txtPhoneNumber.value);
+			    UCClient.transferMeeting(0, otherCall, activeCall, txtPhoneNumber.value);
 			}
         }
 

@@ -136,7 +136,7 @@
                         return;
                     case "getVersion":
                         {
-                            UCClient.info("UCClient version=" + event.param.return);
+                            UCClient.info("version=" + event.param.return);
                             if (typeof (UCClient.ongetVersion) == "function") {
                                 UCClient.ongetVersion(event.param.return);
                             }
@@ -144,7 +144,7 @@
                         return;
                     case "getMicroPhoneInfo":
                         {
-                            UCClient.info("UCClient micro info=" + JSON.stringify(event.param.return));
+                            UCClient.info("micro info=" + JSON.stringify(event.param.return));
                             if (typeof (UCClient.ongetMicroPhoneInfo) == "function") {
                                 UCClient.ongetMicroPhoneInfo(event.param.return);
                             }
@@ -152,7 +152,7 @@
                         return;
                     case "selectMicroPhone":
                         {
-                            UCClient.info("UCClient selectMicroPhone=" + event.param.return);
+                            UCClient.info("selectMicroPhone=" + event.param.return);
                             if (typeof (UCClient.onselectMicroPhone) == "function") {
                                 UCClient.onselectMicroPhone(event.param.return);
                             }
@@ -160,7 +160,7 @@
                         return;
                     case "setTraceFlag":
                         {
-                            UCClient.info("UCClient setTraceFlag=" + event.param.return);
+                            UCClient.info("setTraceFlag=" + event.param.return);
                             if (typeof (UCClient.onsetTraceFlag) == "function") {
                                 UCClient.onsetTraceFlag(event.param.return);
                             }
@@ -168,7 +168,7 @@
                         return;
                     case "connectToCCPServer":
                         {
-                            UCClient.info("UCClient connectToCCPServer=" + event.param.return);
+                            UCClient.info("connectToCCPServer=" + event.param.return);
                             if (typeof (UCClient.onconnectToCCPServer) == "function") {
                                 UCClient.onconnectToCCPServer(event.param.return);
                             }
@@ -176,7 +176,7 @@
                         return;
                     case "disConnectToCCP":
                         {
-                            UCClient.info("UCClient disConnectToCCP=" + event.param.return);
+                            UCClient.info("disConnectToCCP=" + event.param.return);
                             if (typeof (UCClient.ondisConnectToCCP) == "function") {
                                 UCClient.ondisConnectToCCP(event.param.return);
                             }
@@ -184,7 +184,7 @@
                         return;
                     case "makeCall":
                         {
-                            UCClient.info("UCClient makeCall=" + event.param.return);
+                            UCClient.info("makeCall=" + event.param.return);
                             if (typeof (UCClient.onmakeCall) == "function") {
                                 UCClient.onmakeCall(event.param.return);
                             }
@@ -192,7 +192,7 @@
                         return;
                     case "setUserData":
                         {
-                            UCClient.info("UCClient setUserData=" + event.param.return);
+                            UCClient.info("setUserData=" + event.param.return);
                             if (typeof (UCClient.onsetUserData) == "function") {
                                 UCClient.onsetUserData(event.param.return);
                             }
@@ -200,7 +200,7 @@
                         return;
                     case "releaseCall":
                         {
-                            UCClient.info("UCClient releaseCall=" + event.param.return);
+                            UCClient.info("releaseCall=" + event.param.return);
                             if (typeof (UCClient.onreleaseCall) == "function") {
                                 UCClient.onreleaseCall(event.param.return);
                             }
@@ -208,7 +208,7 @@
                         return;
                     case "acceptCall":
                         {
-                            UCClient.info("UCClient acceptCall=" + event.param.return);
+                            UCClient.info("acceptCall=" + event.param.return);
                             if (typeof (UCClient.onacceptCall) == "function") {
                                 UCClient.onacceptCall(event.param.return);
                             }
@@ -216,7 +216,7 @@
                         return;
                     case "pauseCall":
                         {
-                            UCClient.info("UCClient pauseCall=" + event.param.return);
+                            UCClient.info("pauseCall=" + event.param.return);
                             if (typeof (UCClient.onpauseCall) == "function") {
                                 UCClient.onpauseCall(event.param.return);
                             }
@@ -224,7 +224,7 @@
                         return;
                     case "resumeCall":
                         {
-                            UCClient.info("UCClient resumeCall=" + event.param.return);
+                            UCClient.info("resumeCall=" + event.param.return);
                             if (typeof (UCClient.onresumeCall) == "function") {
                                 UCClient.onresumeCall(event.param.return);
                             }
@@ -232,7 +232,7 @@
                         return;
                     case "transferCall":
                         {
-                            UCClient.info("UCClient transferCall=" + event.param.return);
+                            UCClient.info("transferCall=" + event.param.return);
                             if (typeof (UCClient.ontransferCall) == "function") {
                                 UCClient.ontransferCall(event.param.return);
                             }
@@ -240,7 +240,7 @@
                         return;
                     case "sendDTMF":
                         {
-                            UCClient.info("UCClient sendDTMF=" + event.param.return);
+                            UCClient.info("sendDTMF=" + event.param.return);
                             if (typeof (UCClient.onsendDTMF) == "function") {
                                 UCClient.onsendDTMF(event.param.return);
                             }
@@ -248,7 +248,7 @@
                         return;
                     case "consultTransferCall":
                         {
-                            UCClient.info("UCClient consultTransferCall=" + event.param.return);
+                            UCClient.info("consultTransferCall=" + event.param.return);
                             if (typeof (UCClient.onconsultTransferCall) == "function") {
                                 UCClient.onconsultTransferCall(event.param.return);
                             }
@@ -256,7 +256,7 @@
                         return;
                     case "transferMeeting":
                         {
-                            UCClient.info("UCClient transferMeeting=" + event.param.return);
+                            UCClient.info("transferMeeting=" + event.param.return);
                             if (typeof (UCClient.ontransferMeeting) == "function") {
                                 UCClient.ontransferMeeting(event.param.return);
                             }
@@ -264,7 +264,7 @@
                         return;
                     case "setSipTransportType":
                         {
-                            UCClient.info("UCClient setSipTransportType=" + event.param.return);
+                            UCClient.info("setSipTransportType=" + event.param.return);
                             if (typeof (UCClient.onsetSipTransportType) == "function") {
                                 UCClient.onsetSipTransportType(event.param.return);
                             }
@@ -272,19 +272,19 @@
                         return;
                     case "setSrtpEnabled":
                         {
-                            UCClient.info("UCClient setSrtpEnabled");
+                            UCClient.info("setSrtpEnabled");
                             if (typeof (UCClient.onsetSrtpEnabled) == "function") {
                                 UCClient.onsetSrtpEnabled();
                             }
                         }
                         return;
                     default:
-                        UCClient.warn("UCClient:cmdresult未知命令:" + evt.data);
+                        UCClient.warn("cmdresult未知命令:" + evt.data);
                         return;
                 }
             }
             else if (event.type == "event") {
-                UCClient.debug("UCClient:event 事件:" + evt.data);
+                UCClient.debug("event 事件:" + evt.data);
                 switch (event.event) {
                     case "onLogInfo":
                         {
@@ -406,11 +406,11 @@
                         }
                         return;
                     default:
-                        UCClient.warn("UCClient:event未知事件:" + evt.data);
+                        UCClient.warn("event未知事件:" + evt.data);
                         return;
                 }
             }
-            UCClient.warn("UCClient 未知消息：" + evt.data);
+            UCClient.warn("未知消息：" + evt.data);
         },
 
         wsonError: function (evt) {
@@ -644,7 +644,7 @@
         },
 
         //会议
-        transferMeeting: function (type, activeCall, otherCall, consultedUser) {
+        transferMeeting: function (type, otherCall, activeCall, consultedUser) {
             UCClient.debug("transferMeeting, type:" + type + ",activeCall:" + activeCall + ",otherCall:" + otherCall + ",consultedUser:" + consultedUser);
             if (activeCall && UCClient.SessionS[activeCall])
                 UCClient.SessionS[activeCall]._status = UCClient.STATUS.STATUS_CONFERENCEING;
@@ -720,14 +720,14 @@
          */
         trace: function (c) {
             if (UCClient.loglevel == "trace") {
-                c = "[" + UCClient.dateNow() + "] " + c;
+                c = "[" + UCClient.dateNow() + "] UCClient " + c;
                 window.console.trace(c);
             }
         },
 
         debug: function (c) {
             if (UCClient.loglevel == "trace" || UCClient.loglevel == "debug") {
-                c = "[" + UCClient.dateNow() + "] " + c;
+                c = "[" + UCClient.dateNow() + "] UCClient " + c;
                 window.console.debug(c);
             }
         },
@@ -735,21 +735,21 @@
 
         info: function (c) {
             if (UCClient.loglevel == "trace" || UCClient.loglevel == "debug" || UCClient.loglevel == "info") {
-                c = "[" + UCClient.dateNow() + "] " + c;
+                c = "[" + UCClient.dateNow() + "] UCClient " + c;
                 window.console.info(c);
             }
         },
 
         warn: function (c) {
             if (UCClient.loglevel == "trace" || UCClient.loglevel == "debug" || UCClient.loglevel == "info" || UCClient.loglevel == "warn") {
-                c = "[" + UCClient.dateNow() + "] " + c;
+                c = "[" + UCClient.dateNow() + "] UCClient " + c;
                 window.console.warn(c);
             }
         },
 
         error: function (c) {
             if (UCClient.loglevel == "trace" || UCClient.loglevel == "debug" || UCClient.loglevel == "info" || UCClient.loglevel == "warn" || UCClient.loglevel == "error") {
-                c = "[" + UCClient.dateNow() + "] " + c;
+                c = "[" + UCClient.dateNow() + "] UCClient " + c;
                 window.console.error(c);
             }
         },
