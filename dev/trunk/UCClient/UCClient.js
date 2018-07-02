@@ -128,8 +128,8 @@
                     case "initialize":
                         {
                             UCClient.debug("initialize:" + event.param.return);
-                            if (typeof (UCClient.onInitialize) == "function") {
-                                UCClient.onInitialize(event.param.return);
+                            if (typeof (UCClient.oninitialize) == "function") {
+                                UCClient.oninitialize(event.param.return);
                             }
                             UCClient.getVersion();
                         }
@@ -137,144 +137,144 @@
                     case "getVersion":
                         {
                             UCClient.info("UCClient version=" + event.param.return);
-                            if (typeof (UCClient.onGetVersion) == "function") {
-                                UCClient.onGetVersion(event.param.return);
+                            if (typeof (UCClient.ongetVersion) == "function") {
+                                UCClient.ongetVersion(event.param.return);
                             }
                         }
                         return;
                     case "getMicroPhoneInfo":
                         {
                             UCClient.info("UCClient micro info=" + JSON.stringify(event.param.return));
-                            if (typeof (UCClient.onGetMicroPhoneInfo) == "function") {
-                                UCClient.onGetMicroPhoneInfo(event.param.return);
+                            if (typeof (UCClient.ongetMicroPhoneInfo) == "function") {
+                                UCClient.ongetMicroPhoneInfo(event.param.return);
                             }
                         }
                         return;
                     case "selectMicroPhone":
                         {
                             UCClient.info("UCClient selectMicroPhone=" + event.param.return);
-                            if (typeof (UCClient.onSelectMicroPhone) == "function") {
-                                UCClient.onSelectMicroPhone(event.param.return);
+                            if (typeof (UCClient.onselectMicroPhone) == "function") {
+                                UCClient.onselectMicroPhone(event.param.return);
                             }
                         }
                         return;
                     case "setTraceFlag":
                         {
                             UCClient.info("UCClient setTraceFlag=" + event.param.return);
-                            if (typeof (UCClient.onSetTraceFlag) == "function") {
-                                UCClient.onSetTraceFlag(event.param.return);
+                            if (typeof (UCClient.onsetTraceFlag) == "function") {
+                                UCClient.onsetTraceFlag(event.param.return);
                             }
                         }
                         return;
                     case "connectToCCPServer":
                         {
                             UCClient.info("UCClient connectToCCPServer=" + event.param.return);
-                            if (typeof (UCClient.onConnectToCCPServer) == "function") {
-                                UCClient.onConnectToCCPServer(event.param.return);
+                            if (typeof (UCClient.onconnectToCCPServer) == "function") {
+                                UCClient.onconnectToCCPServer(event.param.return);
                             }
                         }
                         return;
                     case "disConnectToCCP":
                         {
                             UCClient.info("UCClient disConnectToCCP=" + event.param.return);
-                            if (typeof (UCClient.onDisConnectToCCP) == "function") {
-                                UCClient.onDisConnectToCCP(event.param.return);
+                            if (typeof (UCClient.ondisConnectToCCP) == "function") {
+                                UCClient.ondisConnectToCCP(event.param.return);
                             }
                         }
                         return;
                     case "makeCall":
                         {
                             UCClient.info("UCClient makeCall=" + event.param.return);
-                            if (typeof (UCClient.onMakeCall) == "function") {
-                                UCClient.onMakeCall(event.param.return);
+                            if (typeof (UCClient.onmakeCall) == "function") {
+                                UCClient.onmakeCall(event.param.return);
                             }
                         }
                         return;
                     case "setUserData":
                         {
                             UCClient.info("UCClient setUserData=" + event.param.return);
-                            if (typeof (UCClient.onSetUserData) == "function") {
-                                UCClient.onSetUserData(event.param.return);
+                            if (typeof (UCClient.onsetUserData) == "function") {
+                                UCClient.onsetUserData(event.param.return);
                             }
                         }
                         return;
                     case "releaseCall":
                         {
                             UCClient.info("UCClient releaseCall=" + event.param.return);
-                            if (typeof (UCClient.onReleaseCall) == "function") {
-                                UCClient.onReleaseCall(event.param.return);
+                            if (typeof (UCClient.onreleaseCall) == "function") {
+                                UCClient.onreleaseCall(event.param.return);
                             }
                         }
                         return;
                     case "acceptCall":
                         {
                             UCClient.info("UCClient acceptCall=" + event.param.return);
-                            if (typeof (UCClient.onAcceptCall) == "function") {
-                                UCClient.onAcceptCall(event.param.return);
+                            if (typeof (UCClient.onacceptCall) == "function") {
+                                UCClient.onacceptCall(event.param.return);
                             }
                         }
                         return;
                     case "pauseCall":
                         {
                             UCClient.info("UCClient pauseCall=" + event.param.return);
-                            if (typeof (UCClient.onPauseCall) == "function") {
-                                UCClient.onPauseCall(event.param.return);
+                            if (typeof (UCClient.onpauseCall) == "function") {
+                                UCClient.onpauseCall(event.param.return);
                             }
                         }
                         return;
                     case "resumeCall":
                         {
                             UCClient.info("UCClient resumeCall=" + event.param.return);
-                            if (typeof (UCClient.onResumeCall) == "function") {
-                                UCClient.onResumeCall(event.param.return);
+                            if (typeof (UCClient.onresumeCall) == "function") {
+                                UCClient.onresumeCall(event.param.return);
                             }
                         }
                         return;
                     case "transferCall":
                         {
                             UCClient.info("UCClient transferCall=" + event.param.return);
-                            if (typeof (UCClient.onTransferCall) == "function") {
-                                UCClient.onTransferCall(event.param.return);
+                            if (typeof (UCClient.ontransferCall) == "function") {
+                                UCClient.ontransferCall(event.param.return);
                             }
                         }
                         return;
                     case "sendDTMF":
                         {
                             UCClient.info("UCClient sendDTMF=" + event.param.return);
-                            if (typeof (UCClient.onSendDTMF) == "function") {
-                                UCClient.onSendDTMF(event.param.return);
+                            if (typeof (UCClient.onsendDTMF) == "function") {
+                                UCClient.onsendDTMF(event.param.return);
                             }
                         }
                         return;
                     case "consultTransferCall":
                         {
                             UCClient.info("UCClient consultTransferCall=" + event.param.return);
-                            if (typeof (UCClient.onConsultTransferCall) == "function") {
-                                UCClient.onConsultTransferCall(event.param.return);
+                            if (typeof (UCClient.onconsultTransferCall) == "function") {
+                                UCClient.onconsultTransferCall(event.param.return);
                             }
                         }
                         return;
                     case "transferMeeting":
                         {
                             UCClient.info("UCClient transferMeeting=" + event.param.return);
-                            if (typeof (UCClient.onTransferMeeting) == "function") {
-                                UCClient.onTransferMeeting(event.param.return);
+                            if (typeof (UCClient.ontransferMeeting) == "function") {
+                                UCClient.ontransferMeeting(event.param.return);
                             }
                         }
                         return;
                     case "setSipTransportType":
                         {
                             UCClient.info("UCClient setSipTransportType=" + event.param.return);
-                            if (typeof (UCClient.onSetSipTransportType) == "function") {
-                                UCClient.onSetSipTransportType(event.param.return);
+                            if (typeof (UCClient.onsetSipTransportType) == "function") {
+                                UCClient.onsetSipTransportType(event.param.return);
                             }
                         }
                         return;
                     case "setSrtpEnabled":
                         {
                             UCClient.info("UCClient setSrtpEnabled");
-                            if (typeof (UCClient.onSetSrtpEnabled) == "function") {
-                                UCClient.onSetSrtpEnabled();
+                            if (typeof (UCClient.onsetSrtpEnabled) == "function") {
+                                UCClient.onsetSrtpEnabled();
                             }
                         }
                         return;
@@ -414,9 +414,9 @@
         },
 
         wsonError: function (evt) {
-            UCClient.error(evt.data);
+            UCClient.error(evt.data || "连接失败");
             if (typeof (UCClient.onWSError) == "function") {
-                UCClient.onWSError(evt?evt:"连接失败");
+                UCClient.onWSError(evt.data || "连接失败");
             }
         },
 

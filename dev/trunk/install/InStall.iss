@@ -66,7 +66,7 @@ Source: "..\build\Win32\bin\*.html"; DestDir: "{app}\x86"; Components:main; Flag
 [Icons]Name: "{group}\Demo"; Filename: "{app}\x86\Demo.html"
 Name: "{group}\UCClient"; Filename: "{app}\x86\UCClient.exe"
 Name: "{group}\{cm:UninstallProgram,{#AppName}}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\UCClient.exe"; WorkingDir: "{app}"Name: "{commondesktop}\Demo"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
+Name: "{commondesktop}\{#AppName}"; Filename:"{app}\x86\UCClient.exe"; WorkingDir: "{app}"Name: "{commondesktop}\UCClientDemo"; Filename: "{app}\x86\Demo.html"; Tasks: desktopicon
 ;Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\CloopenClientPlugin"; Filename: "{app}\ClientPlugin.htm"; Tasks: quicklaunchicon
 [Run]
 ;Filename: "net.exe"; Parameters: "start UCClient" 

@@ -93,12 +93,12 @@
 
         }
 		
-        UCClient.onInitialize = function(evt)
+        UCClient.oninitialize = function(evt)
         {
             UCClient.getMicroPhoneInfo();
         }
 
-        UCClient.onGetMicroPhoneInfo = function (deviceInfos) {
+        UCClient.ongetMicroPhoneInfo = function (deviceInfos) {
             var audioInputSelect = document.querySelector('select#audioSource');
             for (var i = 0; i !== deviceInfos.length; ++i) {
                 var deviceInfo = deviceInfos[i];
@@ -115,7 +115,7 @@
             };
         }
 
-		UCClient.onMakeCallFailed = function(e){
+		UCClient.onmakeCallFailed = function(e){
 			uiCallTerminated(e.reason + ":" + e.msg);
 		}
 		
@@ -432,7 +432,7 @@
             </h2>
             <br/>
             <table style='width: 100%'>
-                <tr>
+                <tr style='visibility:hidden'>
                     <td>
                         <label style="height: 100%">是否加密:</label>
                     </td>
