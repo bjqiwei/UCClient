@@ -106,6 +106,17 @@
             return true;
         },
 
+        /**
+     * 销毁
+     */
+        unInitialize: function () {
+            var cmd = {};
+            cmd.type = "cmd";
+            cmd.cmd = "unInitialize";
+            //cmd.param = {};
+            UCClient.doSend(cmd);
+        },
+
         wsonOpen: function (evt) {
             UCClient.debug("WebSocket CONNECTED");
             if (typeof (UCClient.onWSOpen) == "function") {
@@ -131,7 +142,14 @@
                             if (typeof (UCClient.oninitialize) == "function") {
                                 UCClient.oninitialize(event.param.return);
                             }
-                            UCClient.getVersion();
+                        }
+                        return;
+                    case "unInitialize":
+                        {
+                            UCClient.debug("unInitialize:" + event.param.return);
+                            if (typeof (UCClient.onunInitialize) == "function") {
+                                UCClient.onunInitialize(event.param.return);
+                            }
                         }
                         return;
                     case "getVersion":
@@ -155,6 +173,22 @@
                             UCClient.info("selectMicroPhone=" + event.param.return);
                             if (typeof (UCClient.onselectMicroPhone) == "function") {
                                 UCClient.onselectMicroPhone(event.param.return);
+                            }
+                        }
+                        return;
+                    case "getSpeakerInfo":
+                        {
+                            UCClient.info("speaker info=" + JSON.stringify(event.param.return));
+                            if (typeof (UCClient.ongetSpeakerInfo) == "function") {
+                                UCClient.ongetSpeakerInfo(event.param.return);
+                            }
+                        }
+                        return;
+                    case "selectSpeaker":
+                        {
+                            UCClient.info("selectSpeaker=" + JSON.stringify(event.param.return));
+                            if (typeof (UCClient.onselectSpeaker) == "function") {
+                                UCClient.onselectSpeaker(event.param.return);
                             }
                         }
                         return;
@@ -664,7 +698,7 @@
         },
 
 
-        //获取设备
+        //获取麦克风设备
         getMicroPhoneInfo: function () {
 
             var cmd = {};
@@ -674,13 +708,33 @@
             UCClient.doSend(cmd);
         },
 
-        //设置媒体设备
+        //设置麦克风设备
         selectMicroPhone: function (microId) {
             var cmd = {};
             cmd.type = "cmd";
             cmd.cmd = "selectMicroPhone";
             cmd.param = {};
-            cmd.param.index = microId;
+            cmd.param.index = parseInt(microId);
+            UCClient.doSend(cmd);
+        },
+
+        //获取扬声器设备
+        getSpeakerInfo: function () {
+
+            var cmd = {};
+            cmd.type = "cmd";
+            cmd.cmd = "getSpeakerInfo";
+            //cmd.param = {};
+            UCClient.doSend(cmd);
+        },
+
+        //设置扬声器设备
+        selectSpeaker: function (speakerId) {
+            var cmd = {};
+            cmd.type = "cmd";
+            cmd.cmd = "selectSpeaker";
+            cmd.param = {};
+            cmd.param.index = parseInt(speakerId);
             UCClient.doSend(cmd);
         },
 

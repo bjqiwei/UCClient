@@ -95,7 +95,9 @@
 		
         UCClient.oninitialize = function(evt)
         {
+            UCClient.getVersion();
             UCClient.getMicroPhoneInfo();
+            UCClient.getSpeakerInfo();
         }
 
         UCClient.ongetMicroPhoneInfo = function (deviceInfos) {
@@ -112,6 +114,23 @@
             audioInputSelect.onchange = function () {
                 var audioInputSelect = document.querySelector('select#audioSource');
                 UCClient.selectMicroPhone(audioInputSelect.value);
+            };
+        }
+
+        UCClient.ongetSpeakerInfo = function (deviceInfos) {
+            var audioSpeakerSelect = document.querySelector('select#audioSpeaker');
+            for (var i = 0; i !== deviceInfos.length; ++i) {
+                var deviceInfo = deviceInfos[i];
+                var option = document.createElement('option');
+                option.value = deviceInfo.index;
+                option.text = deviceInfo.name || 'microphone ' + (audioSpeakerSelect.length + 1);
+                audioSpeakerSelect.appendChild(option);
+
+            }
+
+            audioSpeakerSelect.onchange = function () {
+                var audioSpeakerSelect = document.querySelector('select#audioSpeaker');
+                UCClient.selectSpeaker(audioSpeakerSelect.value);
             };
         }
 
@@ -538,6 +557,7 @@
                     <td colspan="1" align="right">
                         <div class="btn-toolbar" style="margin: 0; vertical-align:middle">
 							<div class="btn-group">
+                                <select id="audioSpeaker" style="margin: 0; vertical-align:middle; height: 100%;" class="btn"></select>
 								<select id="audioSource" style="margin: 0; vertical-align:middle; height: 100%;" class="btn"></select>
 							</div>
                             <div id="divBtnCallGroup" class="btn-group">

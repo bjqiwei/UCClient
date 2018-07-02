@@ -122,6 +122,8 @@ public:
 	int setMute(bool on);
 	Json::Value getMicroPhoneInfo();
 	int selectMicroPhone(int microphoneIndex);
+	Json::Value getSpeakerInfo();
+	int selectSpeaker(int speakerIndex);
 	int setUserData(int type, const char *data);
 	int consultTransferCall(const char *callid, const char *consultCallid, const char *destination);
 	int transferMeeting(int type, const char *callid, const char *consultedCallid, const char *consultedUser);

@@ -404,6 +404,18 @@ void UCClientWSclient::OnMessage(const std::string & message)
 			}
 			cmdresult["param"]["return"] = selectMicroPhone(index);
 		}
+		else if (cmd == "getSpeakerInfo")
+		{
+			cmdresult["param"]["return"] = getSpeakerInfo();
+		}
+		else if (cmd == "selectSpeaker")
+		{
+			uint32_t index = 0;
+			if (jsonEvent["param"]["index"].isInt()) {
+				index = jsonEvent["param"]["index"].asInt();
+			}
+			cmdresult["param"]["return"] = selectSpeaker(index);
+		}
 		else if (cmd == "setAudioRecordStatus") {
 			std::string path;
 			uint32_t status;

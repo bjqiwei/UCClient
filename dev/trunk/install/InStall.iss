@@ -6,7 +6,7 @@
 ; 禁止对其他应用程序的安装器使用相同的 AppId 值！
 ; (若要生成一个新的 GUID，请选择“工具 | 生成 GUID”。)
 #define AppName "UCClient"
-#define AppVersion "1.0.0.4"
+#define AppVersion "1.0.0.5"
 AppId={{DF7797D1-6B99-4DB3-B78B-E47429FF3BD5}}
 AppName={#AppName}
 AppVersion={#AppVersion}

@@ -381,6 +381,31 @@ int CWinSDKBase::selectMicroPhone(int microphoneIndex)
 	return ret;
 }
 
+Json::Value CWinSDKBase::getSpeakerInfo()
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__);
+	CCPSpeakerInfo * speaker = nullptr;
+	Json::Value info(Json::arrayValue);
+	int count = ::getSpeakerInfo(&speaker);
+	for (int i = 0; i < count; i++) {
+		Json::Value jspeaker;
+		jspeaker["guid"] = speaker[i].guid;
+		jspeaker["index"] = speaker[i].index;
+		jspeaker["name"] = speaker[i].name;
+		info.append(jspeaker);
+	}
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << info.toStyledString());
+	return info;
+}
+
+int CWinSDKBase::selectSpeaker(int speakerIndex)
+{
+	LOG4CPLUS_DEBUG(log, __FUNCTION__);
+	int ret = ::selectSpeaker(speakerIndex);
+	LOG4CPLUS_DEBUG(log, __FUNCTION__ " result:" << ret);
+	return ret;
+}
+
 int CWinSDKBase::setUserData(int type, const char *data)
 {
 	LOG4CPLUS_DEBUG(log, __FUNCTION__ " type:" << type << ", data:" << data);
