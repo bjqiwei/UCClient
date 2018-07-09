@@ -14,6 +14,8 @@ CSettingsWnd::CSettingsWnd()
 
 CSettingsWnd::~CSettingsWnd()
 {
+	::testSpeakerStop(0);
+	::testMicroPhoneStop();
 }
 
 CControlUI* CSettingsWnd::CreateControl(LPCTSTR pstrClass)
@@ -61,15 +63,15 @@ void CSettingsWnd::InitWindow()
 	m_pSpeakerPlay = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("speakerPlay")));
 	m_pSpeakerPause = static_cast<CButtonUI*>(m_PaintManager.FindControl(_T("speakerPause")));
 
-	m_pMicrophoneVolume->SetVisible(false);
-	m_pMicrophoneProgress->SetVisible(false);
+	//m_pMicrophoneVolume->SetVisible(false);
+	//m_pMicrophoneProgress->SetVisible(false);
 	//m_pMicrophoneTest->SetVisible(false);
-	m_pMicrophonePlay->SetVisible(false);
-	m_pMicrophonePause->SetVisible(false);
+	//m_pMicrophonePlay->SetVisible(false);
+	//m_pMicrophonePause->SetVisible(false);
 
 
-	m_pSpeakerPlay->SetVisible(false);
-	m_pSpeakerProgress->SetVisible(false);
+	//m_pSpeakerPlay->SetVisible(false);
+	//m_pSpeakerProgress->SetVisible(false);
 
 
 	this->m_pSpeakerVolume->SetMinValue(0);
@@ -109,7 +111,7 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 	else if (msg.sType == DUI_MSGTYPE_VALUECHANGED)
 	{
 		if (msg.pSender->GetName() == _T("microphoneVolume")) {
-			//setMicroVolume(this->m_pMicrophoneVolume->GetValue());
+			setMicVolume(this->m_pMicrophoneVolume->GetValue());
 		}
 
 		else if (msg.pSender->GetName() == _T("speakerVolume")) {
@@ -155,15 +157,18 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 		}
 		else if (msg.pSender->GetName() == _T("speakerPlay"))
 		{
-			
+			SetTimer(this->GetHWND(), SPEAKERTEST_TIMER, 100, nullptr);
+			this->m_pSpeakerPlay->SetVisible(false);
+			this->m_pSpeakerPause->SetVisible(true);
 			std::string utf8RingFile = utf8Dir + "ring.wav";
+			::testSpeakerStart(utf8RingFile.c_str(), 1000, 0);
 		}
 		else if (msg.pSender->GetName() == _T("speakerPause"))
 		{
 			this->m_pSpeakerPlay->SetVisible(true);
 			this->m_pSpeakerPause->SetVisible(false);
 			KillTimer(this->GetHWND(), SPEAKERTEST_TIMER);
-
+			::testSpeakerStop(0);
 		}
 
 		else if (msg.pSender->GetName() == _T("microphonePlay"))
@@ -171,6 +176,7 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 			SetTimer(this->GetHWND(), MICROTEST_TIMER, 100, nullptr);
 			this->m_pMicrophonePlay->SetVisible(false);
 			this->m_pMicrophonePause->SetVisible(true);
+			::testMicroPhone();
 
 		}
 		else if (msg.pSender->GetName() == _T("microphonePause"))
@@ -178,6 +184,7 @@ void CSettingsWnd::Notify(TNotifyUI& msg)
 			this->m_pMicrophonePlay->SetVisible(true);
 			this->m_pMicrophonePause->SetVisible(false);
 			KillTimer(this->GetHWND(), MICROTEST_TIMER);
+			::testMicroPhoneStop();
 		}
 		
 	}

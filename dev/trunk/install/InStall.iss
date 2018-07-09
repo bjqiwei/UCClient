@@ -53,8 +53,7 @@ Source: "..\build\Win32\bin\UCClient.exe"; DestDir: "{app}\x86"; Components:main
 Source: "..\build\Win32\bin\libx264-148.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\Ecmedia.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\libx278.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-Source: "..\build\Win32\bin\libx279.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
-;Source: "..\build\Win32\bin\ring.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit 
+Source: "..\build\Win32\bin\libx279.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bitSource: "..\build\Win32\bin\ring.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit 
 ;Source: "..\build\Win32\bin\ringback.wav"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\DuiLib.dll"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
 Source: "..\build\Win32\bin\default.zip"; DestDir: "{app}\x86"; Components:main; Flags: ignoreversion restartreplace uninsrestartdelete 32bit
